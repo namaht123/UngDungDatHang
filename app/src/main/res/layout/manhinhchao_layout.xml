@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/backgroundplashscreen"
+    tools:context=".View.ManHinhChao.ManHinhChaoActivity"
+
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,16 +16,17 @@
         android:orientation="vertical"
         android:background="#80070404"
         android:paddingTop="50dp"
-        android:paddingLeft="120dp"
-        android:paddingRight="120dp"
+        android:paddingLeft="100dp"
+        android:paddingRight="100dp"
 
         >
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:src="@drawable/iconbag_preview_rev_1"
             android:paddingTop="20dp"
             android:layout_gravity="center"
+
             />
         <TextView
             android:layout_width="wrap_content"
@@ -32,10 +35,11 @@
             android:textColor="#fff"
             android:textSize="20dp"
             android:textStyle="bold"
+            android:gravity="center"
             />
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:src="@drawable/icon_money"
             android:paddingTop="20dp"
             android:layout_gravity="center"
@@ -47,11 +51,13 @@
             android:textColor="#fff"
             android:textSize="20dp"
             android:textStyle="bold"
+            android:gravity="center"
+
 
         />
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:src="@drawable/icon_khoa"
             android:paddingTop="20dp"
             android:layout_gravity="center"
@@ -59,20 +65,23 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bảo vệ an toàn người tiêu dùng"
+            android:text="Bảo vệ an toàn người tiêu dùng 100% !"
             android:textColor="#fff"
             android:textSize="20dp"
             android:textStyle="bold"
+            android:gravity="center"
+
 
             />
 
     </LinearLayout>
 
     <ImageView
-        android:layout_width="500dp"
+        android:layout_width="300dp"
         android:layout_height="100dp"
-        android:src="@drawable/Lazada_logo_old"
+        android:src="@drawable/logo_old"
         android:layout_gravity="bottom|center"
+
         />
 
 </FrameLayout>
