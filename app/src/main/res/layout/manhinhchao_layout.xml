@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/backgroundplashscreen"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#80070404"
+        android:paddingTop="50dp"
+        android:paddingLeft="120dp"
+        android:paddingRight="120dp"
+
+        >
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/iconbag_preview_rev_1"
+            android:paddingTop="20dp"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thế giới mua sắm trong tầm tay bạn"
+            android:textColor="#fff"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            />
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/icon_money"
+            android:paddingTop="20dp"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giao hàng tận nơi, Thanh toán tại nhà"
+            android:textColor="#fff"
+            android:textSize="20dp"
+            android:textStyle="bold"
+
+        />
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/icon_khoa"
+            android:paddingTop="20dp"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bảo vệ an toàn người tiêu dùng"
+            android:textColor="#fff"
+            android:textSize="20dp"
+            android:textStyle="bold"
+
+            />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="500dp"
+        android:layout_height="100dp"
+        android:src="@drawable/Lazada_logo_old"
+        android:layout_gravity="bottom|center"
+        />
+
+</FrameLayout>
