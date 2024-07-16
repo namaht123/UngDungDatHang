@@ -1,11 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".View.TrangChu.ManHinhTrangChu">
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+  <android.support.design.widget.AppBarLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/bgToolbar"
+      >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+      <android.support.v7.widget.Toolbar
+          android:layout_width="?attr/actionBarSize"
+          android:layout_height="match_parent"
+
+          />
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:background=""
+          android:layout_margin="10dp"
+          >
+<!--        doan nay dyng AppCompatButton dung button ko doi dc mau-->
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:drawableLeft="@drawable/icon_search_s"
+            android:text="Tìm kiếm trên lazada"
+            android:gravity="center|start"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+
+
+
+
+            />
+
+      </LinearLayout>
+
+    </LinearLayout>
+
+
+  </android.support.design.widget.AppBarLayout>
+
+  </LinearLayout>
