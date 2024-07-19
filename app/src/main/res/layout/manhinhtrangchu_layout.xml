@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".View.TrangChu.ManHinhTrangChu">
 
-  <android.support.design.widget.AppBarLayout
+  <com.google.android.material.appbar.AppBarLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:background="@color/bgToolbar"
@@ -18,39 +18,81 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-      <android.support.v7.widget.Toolbar
-          android:layout_width="?attr/actionBarSize"
+      <androidx.appcompat.widget.Toolbar
+          android:id="@+id/toolbar"
+          android:layout_width="match_parent"
           android:layout_height="match_parent"
+          app:logo="@drawable/logo_lz11"
+          app:theme="@style/menuitwmcolor"
 
           />
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:orientation="horizontal"
-          android:background=""
-          android:layout_margin="10dp"
+          android:background="@drawable/bg_search"
+          android:layout_margin="13dp"
           >
-<!--        doan nay dyng AppCompatButton dung button ko doi dc mau-->
-        <android.support.v7.widget.AppCompatButton
+
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:backgroundTint="@color/white"
             android:drawableLeft="@drawable/icon_search_s"
             android:text="Tìm kiếm trên lazada"
+            android:textColor="@color/cologray"
             android:gravity="center|start"
             android:textAlignment="viewStart"
             android:textAllCaps="false"
-
-
-
-
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:layout_margin="5dp"
             />
+          <View
+              android:layout_width="1dp"
+              android:layout_height="match_parent"
+              android:layout_marginTop="10dp"
+              android:layout_marginBottom="10dp"
+              android:background="@color/bgToolbar"
+              />
+          <ImageButton
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:src="@drawable/icon_camera11"
+              android:background="@color/white"
+              android:layout_gravity="center"
+              android:padding="5dp"
+
+
+              />
 
       </LinearLayout>
+
+      <com.google.android.material.tabs.TabLayout
+          android:id="@+id/tab"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:tabMode="scrollable"
+          app:tabTextColor="@color/cologray"
+          android:background="@color/bgToolbar"
+
+
+
+          >
+
+      </com.google.android.material.tabs.TabLayout>
 
     </LinearLayout>
 
 
-  </android.support.design.widget.AppBarLayout>
+  </com.google.android.material.appbar.AppBarLayout>
+
+  <androidx.viewpager.widget.ViewPager
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:id="@+id/viewpager"
+      >
+
+  </androidx.viewpager.widget.ViewPager>
 
   </LinearLayout>

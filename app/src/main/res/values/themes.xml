@@ -3,7 +3,14 @@
     <style name="Base.Theme.Ung_Dung_Dat_Hang" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
+        <item name="colorAccent">#FF5722</item>
 
+    </style>
+    <style name="menuitwmcolor" parent="Base.Theme.Ung_Dung_Dat_Hang">
+        <item name="android:textColorPrimary">@color/bgToolbar</item>
+    </style>
+    <style name="capfale" parent="TextAppearance.Design.CollapsingToolbar.Expanded">
+        <item name="textAllCaps">false</item>
+    </style>
     <style name="Theme.Ung_Dung_Dat_Hang" parent="Base.Theme.Ung_Dung_Dat_Hang" />
 </resources>

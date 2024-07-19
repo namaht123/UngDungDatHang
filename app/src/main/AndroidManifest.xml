@@ -11,20 +11,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ung_Dung_Dat_Hang"
-        tools:targetApi="31" >
+        tools:replace="android:icon,android:roundIcon"
+        tools:targetApi="31">
+
         <activity
             android:name=".View.TrangChu.ManHinhTrangChu"
             android:exported="false" />
+
         <activity
             android:name=".View.ManHinhChao.ManHinhChaoActivity"
             android:exported="true"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
+
 
 </manifest>

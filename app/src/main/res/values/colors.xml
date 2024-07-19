@@ -3,5 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="bgToolbar">#183545</color>
+    <color name="bgLogo">#17AA9C</color>
+    <color name="cologray">#ccc</color>
+
 
 </resources>
