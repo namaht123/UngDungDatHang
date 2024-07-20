@@ -1,16 +1,32 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Base application theme -->
     <style name="Base.Theme.Ung_Dung_Dat_Hang" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
+        <!-- Customize your light theme here -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorAccent">#FF5722</item>
-
+        <item name="colorPrimary">#FF5722</item>
+        <item name="colorPrimaryDark">#FF5722</item>
+        <item name="android:textColorPrimary">@color/white</item>
     </style>
+
+    <!-- Application theme -->
+    <style name="Theme.Ung_Dung_Dat_Hang" parent="Base.Theme.Ung_Dung_Dat_Hang">
+        <!-- Customize your theme here -->
+    </style>
+
+    <!-- Menu item color style -->
     <style name="menuitwmcolor" parent="Base.Theme.Ung_Dung_Dat_Hang">
         <item name="android:textColorPrimary">@color/bgToolbar</item>
+        <item name="drawerArrowStyle">@style/changercolor</item>
     </style>
-    <style name="capfale" parent="TextAppearance.Design.CollapsingToolbar.Expanded">
+
+    <!-- Tab text appearance style -->
+    <style name="capfale" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
     </style>
-    <style name="Theme.Ung_Dung_Dat_Hang" parent="Base.Theme.Ung_Dung_Dat_Hang" />
+
+    <!-- Drawer arrow toggle style -->
+    <style name="changercolor" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/white</item>
+    </style>
 </resources>
