@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.ung_dung_dat_hang.Adapter.ExpandAdapter;
 import com.example.ung_dung_dat_hang.Adapter.ViewPagerAdapter;
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.LoaiSanPham;
 import com.example.ung_dung_dat_hang.Presenter.Trangchu.XuLyMenu.PrensenterLogicXuLyMenu;
@@ -76,11 +77,14 @@ public class ManHinhTrangChu extends AppCompatActivity implements ViewXuLyMenu {
 
     @Override
     public void HienThiDanhSachMenu(List<LoaiSanPham> loaiSanPhamList) {
-        if (loaiSanPhamList != null && !loaiSanPhamList.isEmpty()) {
-            Log.d("kiemtra", loaiSanPhamList.get(0).getTENLOAISP());
-        } else {
-            Log.d("kiemtra", "Danh sách menu trống");
-        }
+//        if (loaiSanPhamList != null && !loaiSanPhamList.isEmpty()) {
+//            Log.d("kiemtra", loaiSanPhamList.get(0).getTENLOAISP());
+//        } else {
+//            Log.d("kiemtra", "Danh sách menu trống");
+//        }
+        ExpandAdapter expandAdapter = new ExpandAdapter(this,loaiSanPhamList);
+        expandableListView.setAdapter(expandAdapter);
+        expandAdapter.notifyDataSetChanged();
     }
 
     @Override
