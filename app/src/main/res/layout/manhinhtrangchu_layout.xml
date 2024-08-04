@@ -49,7 +49,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+            android:background="@drawable/selector_bgsearch"
             android:drawableLeft="@drawable/icon_search_s"
             android:text="Tìm kiếm trên lazada"
             android:textColor="@color/cologray"
@@ -57,8 +57,9 @@
             android:textAlignment="viewStart"
             android:textAllCaps="false"
             android:layout_weight="1"
-            android:padding="5dp"
-            android:layout_margin="5dp"
+            android:paddingLeft="10dp"
+
+
             />
           <View
               android:layout_width="1dp"
@@ -71,7 +72,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:src="@drawable/icon_camera11"
-              android:background="@color/white"
+              android:background="@drawable/selector_bgsearch"
               android:layout_gravity="center"
               android:padding="5dp"
 
@@ -116,6 +117,8 @@
       android:layout_height="match_parent"
       android:layout_gravity="start"
       android:background="@color/white"
+      android:choiceMode="multipleChoice"
+      android:groupIndicator="@null"
       >
 
   </ExpandableListView>
