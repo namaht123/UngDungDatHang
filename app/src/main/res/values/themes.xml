@@ -3,8 +3,8 @@
     <style name="Base.Theme.Ung_Dung_Dat_Hang" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="colorAccent">#FF5722</item>
-        <item name="colorPrimary">#FFFFFF</item>
+        <item name="colorAccent">@color/bgToolbar</item>
+        <item name="colorPrimary">@color/design_default_color_primary_dark</item>
         <item name="colorPrimaryDark">#FF5722</item>
         <item name="android:textColorPrimary">@color/white</item>
     </style>

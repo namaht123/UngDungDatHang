@@ -20,7 +20,7 @@ import com.example.ung_dung_dat_hang.Adapter.ViewPagerAdapter;
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.LoaiSanPham;
 import com.example.ung_dung_dat_hang.Presenter.Trangchu.XuLyMenu.PrensenterLogicXuLyMenu;
 import com.example.ung_dung_dat_hang.R;
-import com.example.ung_dung_dat_hang.View.ManHinhChao.ManHinhChaoActivity;
+import com.example.ung_dung_dat_hang.View.DangNhap.DangNhapActivity;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
@@ -72,17 +72,21 @@ public class ManHinhTrangChu extends AppCompatActivity implements ViewXuLyMenu {
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        return super.onOptionsItemSelected(item);
+        int id = item.getItemId();
+        if (id == R.id.itDangNhap) {
+            Intent iDangNhap = new Intent(this, DangNhapActivity.class);
+            startActivity(iDangNhap);
+        } else if (id == R.id.itThongBao) {
+            // Thêm hành động cho mục Thông Báo nếu cần
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 
     @Override
     public void HienThiDanhSachMenu(List<LoaiSanPham> loaiSanPhamList) {
-//        if (loaiSanPhamList != null && !loaiSanPhamList.isEmpty()) {
-//            Log.d("kiemtra", loaiSanPhamList.get(0).getTENLOAISP());
-//        } else {
-//            Log.d("kiemtra", "Danh sách menu trống");
-//        }
-        ExpandAdapter expandAdapter = new ExpandAdapter(this,loaiSanPhamList);
+        ExpandAdapter expandAdapter = new ExpandAdapter(this, loaiSanPhamList);
         expandableListView.setAdapter(expandAdapter);
         expandAdapter.notifyDataSetChanged();
     }

@@ -49,7 +49,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector_bgsearch"
+            android:backgroundTint="@color/white"
             android:drawableLeft="@drawable/icon_search_s"
             android:text="Tìm kiếm trên lazada"
             android:textColor="@color/cologray"
