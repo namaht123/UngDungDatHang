@@ -1,7 +1,5 @@
 package com.example.ung_dung_dat_hang.Model.TrangChu.XulyMenu;
 
-import com.example.ung_dung_dat_hang.ConnnectInternet.DownloadJSON;
-import com.example.ung_dung_dat_hang.ConnnectInternet.DownloadJSONCallback;
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.LoaiSanPham;
 
 import org.json.JSONArray;
@@ -38,27 +36,5 @@ public class XuLyJSONMenu {
         return loaiSanPhamsList;
     }
 
-    public void LayLoaiSanPhamThaoMaLoai(int maloaisp, DownloadJSONCallback callback) {
-        List<HashMap<String, String>> attrs = new ArrayList<>();
 
-        String duongdan = "http://192.168.1.24/weblazada/loaisanpham.php";
-        HashMap<String, String> hsMaLoaiCha = new HashMap<>();
-        hsMaLoaiCha.put("maloaicha", String.valueOf(maloaisp));
-
-        attrs.add(hsMaLoaiCha);
-
-        DownloadJSON downloadJSON = new DownloadJSON(duongdan, attrs, new DownloadJSONCallback() {
-            @Override
-            public void onSuccess(String data) {
-                List<LoaiSanPham> loaiSanPhamList = ParserJSONMenu(data);
-                callback.onSuccess(data);
-            }
-
-            @Override
-            public void onError(String error) {
-                callback.onError(error);
-            }
-        });
-        downloadJSON.execute();
-    }
 }

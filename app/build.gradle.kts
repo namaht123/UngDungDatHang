@@ -13,7 +13,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -40,8 +40,19 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    // Thư viện android.support
     // Các thư viện androidx
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.8.0")
+    implementation("net.sourceforge.jtds:jtds:1.3.1") // Thêm dòng này
+    // Thay thế driver JDBC để kết nối với SQL Server
+    implementation("com.microsoft.sqlserver:mssql-jdbc:11.2.0.jre8") // Phiên bản mới hơn có thể cần thiết
+
+    // Thay thế driver JDBC để kết nối với SQL Server
+    implementation("com.microsoft.sqlserver:mssql-jdbc:11.2.0.jre8") // Phiên bản mới hơn có thể cần thiết
+
+    // Thư viện cho MySQL
+    implementation("mysql:mysql-connector-java:8.0.32")
+
+    implementation("com.github.bumptech.glide:glide:4.14.2") // Hoặc phiên bản mới nhất
+    annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
 }

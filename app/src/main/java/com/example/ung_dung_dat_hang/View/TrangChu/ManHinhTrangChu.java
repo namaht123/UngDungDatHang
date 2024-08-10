@@ -2,7 +2,6 @@ package com.example.ung_dung_dat_hang.View.TrangChu;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
@@ -15,52 +14,55 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.ung_dung_dat_hang.Adapter.ExpandAdapter;
 import com.example.ung_dung_dat_hang.Adapter.ViewPagerAdapter;
-import com.example.ung_dung_dat_hang.Model.ObjeactClass.LoaiSanPham;
-import com.example.ung_dung_dat_hang.Presenter.Trangchu.XuLyMenu.PrensenterLogicXuLyMenu;
+import com.example.ung_dung_dat_hang.ConnnectInternet.DatabaseConnection;
 import com.example.ung_dung_dat_hang.R;
 import com.example.ung_dung_dat_hang.View.DangNhap.DangNhapActivity;
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.List;
-
-public class ManHinhTrangChu extends AppCompatActivity implements ViewXuLyMenu {
-    Toolbar toolbar;
-    TabLayout tabLayout;
-    ViewPager viewPager;
-    ExpandableListView expandableListView;
-    DrawerLayout drawerLayout;
-
-    ActionBarDrawerToggle drawerToggle;
+public class ManHinhTrangChu extends AppCompatActivity {
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private ExpandableListView expandableListView;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manhinhtrangchu_layout);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        tabLayout = (TabLayout) findViewById(R.id.tab);
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        expandableListView = (ExpandableListView) findViewById(R.id.epMenu);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 
+        // Initialize UI elements
+        toolbar = findViewById(R.id.toolbar);
+        tabLayout = findViewById(R.id.tab);
+        viewPager = findViewById(R.id.viewpager);
+        expandableListView = findViewById(R.id.epMenu);
+        drawerLayout = findViewById(R.id.drawerLayout);
+
+        // Set up the toolbar
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        // Set up the drawer toggle
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         drawerToggle.syncState();
 
+        // Set up ViewPager with TabLayout
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
-        PrensenterLogicXuLyMenu logicXuLyMenu = new PrensenterLogicXuLyMenu(this);
-        logicXuLyMenu.LayDanhSachMenu();
+//        // Initialize and test database connection asynchronously
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                DatabaseConnection databaseConnection = new DatabaseConnection();
+//                databaseConnection.checkConnection();
+//            }
+//        }).start();
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_trangchu, menu);
@@ -77,22 +79,10 @@ public class ManHinhTrangChu extends AppCompatActivity implements ViewXuLyMenu {
             Intent iDangNhap = new Intent(this, DangNhapActivity.class);
             startActivity(iDangNhap);
         } else if (id == R.id.itThongBao) {
-            // Thêm hành động cho mục Thông Báo nếu cần
+            // Add action for notifications if needed
         } else {
             return super.onOptionsItemSelected(item);
         }
         return true;
-    }
-
-    @Override
-    public void HienThiDanhSachMenu(List<LoaiSanPham> loaiSanPhamList) {
-        ExpandAdapter expandAdapter = new ExpandAdapter(this, loaiSanPhamList);
-        expandableListView.setAdapter(expandAdapter);
-        expandAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void HienThiThongBaoLoi(String error) {
-        Toast.makeText(this, error, Toast.LENGTH_LONG).show();
     }
 }

@@ -22,5 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.example.ung_dung_dat_hang", appContext.getPackageName());
+
     }
 }
