@@ -5,9 +5,15 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.ung_dung_dat_hang.Model.ObjeactClass.SanPham;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseConnection {
     private Connection con;
@@ -68,5 +74,59 @@ public class DatabaseConnection {
             Log.e("Connection Error", "Connection check error: " + e.getMessage());
         }
         return isConnected;
+    }
+
+    // New method to fetch products
+    public List<SanPham> getSanPhamList() {
+        List<SanPham> list = new ArrayList<>();
+        Connection connection = getCon(); // Use the correct reference
+        if (connection != null) {
+            try {
+                Statement stmt = connection.createStatement();
+                String query = "SELECT * FROM SanPham"; // Modify as needed
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    int maSP = rs.getInt("MaSP");
+                    String tenSP = rs.getString("TenSP");
+                    double gia = rs.getDouble("Gia");
+                    String thongTin = rs.getString("Thong_tin");
+                    String anh = rs.getString("Anh");
+                    int soLuong = rs.getInt("SoLuong");
+                    String anhNho = rs.getString("AnhNho");
+                    int maLoai = rs.getInt("MaLoai");
+                    int maThuongHieu = rs.getInt("Mathuonghieu");
+                    list.add(new SanPham(maSP, tenSP, gia, thongTin, anh, soLuong, anhNho, maLoai, maThuongHieu));
+                }
+            } catch (SQLException e) {
+                Log.e("Database Error", "Error fetching products: " + e.getMessage());
+            }
+        }
+        return list;
+    }
+    public List<SanPham> getSanPhamMevaBeList() {
+        List<SanPham> list = new ArrayList<>();
+        Connection connection = getCon(); // Use the correct reference
+        if (connection != null) {
+            try {
+                Statement stmt = connection.createStatement();
+                String query = "SELECT * FROM SanPham WHERE MaLoai = 3 "; // Modify as needed
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    int maSP = rs.getInt("MaSP");
+                    String tenSP = rs.getString("TenSP");
+                    double gia = rs.getDouble("Gia");
+                    String thongTin = rs.getString("Thong_tin");
+                    String anh = rs.getString("Anh");
+                    int soLuong = rs.getInt("SoLuong");
+                    String anhNho = rs.getString("AnhNho");
+                    int maLoai = rs.getInt("MaLoai");
+                    int maThuongHieu = rs.getInt("Mathuonghieu");
+                    list.add(new SanPham(maSP, tenSP, gia, thongTin, anh, soLuong, anhNho, maLoai, maThuongHieu));
+                }
+            } catch (SQLException e) {
+                Log.e("Database Error", "Error fetching products: " + e.getMessage());
+            }
+        }
+        return list;
     }
 }

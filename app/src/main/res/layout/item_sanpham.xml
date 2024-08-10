@@ -8,8 +8,8 @@
     android:padding="8dp">
 
     <LinearLayout
-        android:layout_width="168dp"
-        android:layout_height="256dp"
+        android:layout_width="179dp"
+        android:layout_height="245dp"
         android:layout_marginStart="8dp"
         android:background="@drawable/backgroud_sanpham"
         android:orientation="vertical"
