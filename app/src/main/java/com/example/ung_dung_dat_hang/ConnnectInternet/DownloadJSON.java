@@ -31,7 +31,7 @@ public class DownloadJSON extends AsyncTask<String, Void, String> {
         this.callback = callback;
         method = false;
     }
-//a
+
     @Override
     protected String doInBackground(String... strings) {
         String data = "";
