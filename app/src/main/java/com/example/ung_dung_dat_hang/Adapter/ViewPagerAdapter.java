@@ -26,8 +26,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         super(fm);
         listFragment.add(new FragmentNoiiBatt());
         listFragment.add(new FragmentChuongTrinhKhuyenMai());
-        listFragment.add(new FragmentDienTu());
         listFragment.add(new FragmentNhaCuaVaDoiSong());
+        listFragment.add(new FragmentDienTu());
         listFragment.add(new FragmentMeVaBe());
         listFragment.add(new FragmentLamDep());
         listFragment.add(new FragmentThoiTrang());

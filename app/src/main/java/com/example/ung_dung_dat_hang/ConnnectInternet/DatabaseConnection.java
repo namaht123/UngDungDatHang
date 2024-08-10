@@ -129,4 +129,134 @@ public class DatabaseConnection {
         }
         return list;
     }
+    public List<SanPham> getSanPhamnhavadoisongList() {
+        List<SanPham> list = new ArrayList<>();
+        Connection connection = getCon(); // Use the correct reference
+        if (connection != null) {
+            try {
+                Statement stmt = connection.createStatement();
+                String query = "SELECT * FROM SanPham WHERE MaLoai = 1 "; // Modify as needed
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    int maSP = rs.getInt("MaSP");
+                    String tenSP = rs.getString("TenSP");
+                    double gia = rs.getDouble("Gia");
+                    String thongTin = rs.getString("Thong_tin");
+                    String anh = rs.getString("Anh");
+                    int soLuong = rs.getInt("SoLuong");
+                    String anhNho = rs.getString("AnhNho");
+                    int maLoai = rs.getInt("MaLoai");
+                    int maThuongHieu = rs.getInt("Mathuonghieu");
+                    list.add(new SanPham(maSP, tenSP, gia, thongTin, anh, soLuong, anhNho, maLoai, maThuongHieu));
+                }
+            } catch (SQLException e) {
+                Log.e("Database Error", "Error fetching products: " + e.getMessage());
+            }
+        }
+        return list;
+    }
+    public List<SanPham> getSanPhamdientuList() {
+        List<SanPham> list = new ArrayList<>();
+        Connection connection = getCon(); // Use the correct reference
+        if (connection != null) {
+            try {
+                Statement stmt = connection.createStatement();
+                String query = "SELECT * FROM SanPham WHERE MaLoai = 2 "; // Modify as needed
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    int maSP = rs.getInt("MaSP");
+                    String tenSP = rs.getString("TenSP");
+                    double gia = rs.getDouble("Gia");
+                    String thongTin = rs.getString("Thong_tin");
+                    String anh = rs.getString("Anh");
+                    int soLuong = rs.getInt("SoLuong");
+                    String anhNho = rs.getString("AnhNho");
+                    int maLoai = rs.getInt("MaLoai");
+                    int maThuongHieu = rs.getInt("Mathuonghieu");
+                    list.add(new SanPham(maSP, tenSP, gia, thongTin, anh, soLuong, anhNho, maLoai, maThuongHieu));
+                }
+            } catch (SQLException e) {
+                Log.e("Database Error", "Error fetching products: " + e.getMessage());
+            }
+        }
+        return list;
+    }
+    public List<SanPham> getSanPhamlamdepList() {
+        List<SanPham> list = new ArrayList<>();
+        Connection connection = getCon(); // Use the correct reference
+        if (connection != null) {
+            try {
+                Statement stmt = connection.createStatement();
+                String query = "SELECT * FROM SanPham WHERE MaLoai = 4 "; // Modify as needed
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    int maSP = rs.getInt("MaSP");
+                    String tenSP = rs.getString("TenSP");
+                    double gia = rs.getDouble("Gia");
+                    String thongTin = rs.getString("Thong_tin");
+                    String anh = rs.getString("Anh");
+                    int soLuong = rs.getInt("SoLuong");
+                    String anhNho = rs.getString("AnhNho");
+                    int maLoai = rs.getInt("MaLoai");
+                    int maThuongHieu = rs.getInt("Mathuonghieu");
+                    list.add(new SanPham(maSP, tenSP, gia, thongTin, anh, soLuong, anhNho, maLoai, maThuongHieu));
+                }
+            } catch (SQLException e) {
+                Log.e("Database Error", "Error fetching products: " + e.getMessage());
+            }
+        }
+        return list;
+    }
+    public List<SanPham> getSanPhamthoitrangList() {
+        List<SanPham> list = new ArrayList<>();
+        Connection connection = getCon(); // Use the correct reference
+        if (connection != null) {
+            try {
+                Statement stmt = connection.createStatement();
+                String query = "SELECT * FROM SanPham WHERE MaLoai = 5 "; // Modify as needed
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    int maSP = rs.getInt("MaSP");
+                    String tenSP = rs.getString("TenSP");
+                    double gia = rs.getDouble("Gia");
+                    String thongTin = rs.getString("Thong_tin");
+                    String anh = rs.getString("Anh");
+                    int soLuong = rs.getInt("SoLuong");
+                    String anhNho = rs.getString("AnhNho");
+                    int maLoai = rs.getInt("MaLoai");
+                    int maThuongHieu = rs.getInt("Mathuonghieu");
+                    list.add(new SanPham(maSP, tenSP, gia, thongTin, anh, soLuong, anhNho, maLoai, maThuongHieu));
+                }
+            } catch (SQLException e) {
+                Log.e("Database Error", "Error fetching products: " + e.getMessage());
+            }
+        }
+        return list;
+    }
+    public List<SanPham> getSanPhamdulichList() {
+        List<SanPham> list = new ArrayList<>();
+        Connection connection = getCon(); // Use the correct reference
+        if (connection != null) {
+            try {
+                Statement stmt = connection.createStatement();
+                String query = "SELECT * FROM SanPham WHERE MaLoai = 5 "; // Modify as needed
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    int maSP = rs.getInt("MaSP");
+                    String tenSP = rs.getString("TenSP");
+                    double gia = rs.getDouble("Gia");
+                    String thongTin = rs.getString("Thong_tin");
+                    String anh = rs.getString("Anh");
+                    int soLuong = rs.getInt("SoLuong");
+                    String anhNho = rs.getString("AnhNho");
+                    int maLoai = rs.getInt("MaLoai");
+                    int maThuongHieu = rs.getInt("Mathuonghieu");
+                    list.add(new SanPham(maSP, tenSP, gia, thongTin, anh, soLuong, anhNho, maLoai, maThuongHieu));
+                }
+            } catch (SQLException e) {
+                Log.e("Database Error", "Error fetching products: " + e.getMessage());
+            }
+        }
+        return list;
+    }
 }
