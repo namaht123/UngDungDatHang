@@ -31,8 +31,8 @@ public class DatabaseConnection {
         protected Boolean doInBackground(Void... voids) {
             ip = "10.0.2.2"; // IP address for localhost in Android Emulator
             database = "data_Lazada";
-            uname = "TQD";
-            pass = "123";
+            uname = "Sang";
+            pass = "261102";
             port = "1433"; // Default port for SQL Server
             String ConnectionURL;
             try {
@@ -266,7 +266,7 @@ public class DatabaseConnection {
         if (connection != null) {
             try {
                 Statement stmt = connection.createStatement();
-                String query = "SELECT * FROM SanPhamKhuyenMai"; // Modify as needed
+                String query = "SELECT * FROM SanPhamKhuyenMai"; // Ensure this query matches your database schema
                 ResultSet rs = stmt.executeQuery(query);
                 while (rs.next()) {
                     int maSPKM = rs.getInt("MaSPKM");
@@ -276,8 +276,12 @@ public class DatabaseConnection {
                     double phanTramKhuyenMai = rs.getDouble("PhanTramKhuyenMai");
                     int maKhuyenMai = rs.getInt("MaKhuyenMai");
                     int maSP = rs.getInt("MaSP");
+                    String hinhAnh = rs.getString("HinhAnh"); // Added field
+                    String anhNho = rs.getString("AnhNho");   // Added field
+                    double giaGoc = rs.getDouble("GiaGoc");    // Added field
+
                     list.add(new SanPhamKhuyenMai(maSPKM, tenSPKM, ngayBatDauKM, ngayKetThucKM,
-                            phanTramKhuyenMai, maKhuyenMai, maSP));
+                            phanTramKhuyenMai, maKhuyenMai, maSP, hinhAnh, anhNho, giaGoc));
                 }
             } catch (SQLException e) {
                 Log.e("Database Error", "Error fetching promotion products: " + e.getMessage());
@@ -285,5 +289,6 @@ public class DatabaseConnection {
         }
         return list;
     }
+
 
 }

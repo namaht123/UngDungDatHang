@@ -12,7 +12,6 @@
     <corners
         android:radius="8dp" />
 
-
     <padding
         android:left="8dp"
         android:top="8dp"

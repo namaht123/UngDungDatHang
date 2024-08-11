@@ -8,10 +8,14 @@ public class SanPhamKhuyenMai {
     private double phanTramKhuyenMai;
     private int maKhuyenMai;
     private int maSP;
+    private String hinhAnh;  // URL or path to the large image
+    private String anhNho;   // URL or path to the thumbnail image
+    private double giaGoc;
 
     // Constructor
     public SanPhamKhuyenMai(int maSPKM, String tenSPKM, String ngayBatDauKM, String ngayKetThucKM,
-                            double phanTramKhuyenMai, int maKhuyenMai, int maSP) {
+                            double phanTramKhuyenMai, int maKhuyenMai, int maSP, String hinhAnh,
+                            String anhNho, double giaGoc) {
         this.maSPKM = maSPKM;
         this.tenSPKM = tenSPKM;
         this.ngayBatDauKM = ngayBatDauKM;
@@ -19,6 +23,9 @@ public class SanPhamKhuyenMai {
         this.phanTramKhuyenMai = phanTramKhuyenMai;
         this.maKhuyenMai = maKhuyenMai;
         this.maSP = maSP;
+        this.hinhAnh = hinhAnh;
+        this.anhNho = anhNho;
+        this.giaGoc = giaGoc;
     }
 
     // Getters and Setters
@@ -78,6 +85,30 @@ public class SanPhamKhuyenMai {
         this.maSP = maSP;
     }
 
+    public String getHinhAnh() {
+        return hinhAnh;
+    }
+
+    public void setHinhAnh(String hinhAnh) {
+        this.hinhAnh = hinhAnh;
+    }
+
+    public String getAnhNho() {
+        return anhNho;
+    }
+
+    public void setAnhNho(String anhNho) {
+        this.anhNho = anhNho;
+    }
+
+    public double getGiaGoc() {
+        return giaGoc;
+    }
+
+    public void setGiaGoc(double giaGoc) {
+        this.giaGoc = giaGoc;
+    }
+
     @Override
     public String toString() {
         return "SanPhamKhuyenMai{" +
@@ -88,6 +119,9 @@ public class SanPhamKhuyenMai {
                 ", phanTramKhuyenMai=" + phanTramKhuyenMai +
                 ", maKhuyenMai=" + maKhuyenMai +
                 ", maSP=" + maSP +
+                ", hinhAnh='" + hinhAnh + '\'' +
+                ", anhNho='" + anhNho + '\'' +
+                ", giaGoc=" + giaGoc +
                 '}';
     }
 }
