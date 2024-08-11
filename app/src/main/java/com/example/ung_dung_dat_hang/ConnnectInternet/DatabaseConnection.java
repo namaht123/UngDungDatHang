@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.SanPham;
+import com.example.ung_dung_dat_hang.Model.ObjeactClass.SanPhamKhuyenMai;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -239,7 +240,7 @@ public class DatabaseConnection {
         if (connection != null) {
             try {
                 Statement stmt = connection.createStatement();
-                String query = "SELECT * FROM SanPham WHERE MaLoai = 5 "; // Modify as needed
+                String query = "SELECT * FROM SanPham WHERE MaLoai = 6 "; // Modify as needed
                 ResultSet rs = stmt.executeQuery(query);
                 while (rs.next()) {
                     int maSP = rs.getInt("MaSP");
@@ -259,4 +260,30 @@ public class DatabaseConnection {
         }
         return list;
     }
+    public List<SanPhamKhuyenMai> getAllSanPhamKhuyenMai() {
+        List<SanPhamKhuyenMai> list = new ArrayList<>();
+        Connection connection = getCon(); // Use the correct reference
+        if (connection != null) {
+            try {
+                Statement stmt = connection.createStatement();
+                String query = "SELECT * FROM SanPhamKhuyenMai"; // Modify as needed
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    int maSPKM = rs.getInt("MaSPKM");
+                    String tenSPKM = rs.getString("TenSPKM");
+                    String ngayBatDauKM = rs.getString("NgayBatDauKM");
+                    String ngayKetThucKM = rs.getString("NgayKetThucKM");
+                    double phanTramKhuyenMai = rs.getDouble("PhanTramKhuyenMai");
+                    int maKhuyenMai = rs.getInt("MaKhuyenMai");
+                    int maSP = rs.getInt("MaSP");
+                    list.add(new SanPhamKhuyenMai(maSPKM, tenSPKM, ngayBatDauKM, ngayKetThucKM,
+                            phanTramKhuyenMai, maKhuyenMai, maSP));
+                }
+            } catch (SQLException e) {
+                Log.e("Database Error", "Error fetching promotion products: " + e.getMessage());
+            }
+        }
+        return list;
+    }
+
 }
