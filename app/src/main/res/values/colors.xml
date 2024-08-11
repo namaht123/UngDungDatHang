@@ -5,6 +5,5 @@
     <color name="bgToolbar">#183545</color>
     <color name="bgLogo">#17AA9C</color>
     <color name="cologray">#ccc</color>
-
-
+    <color name="yellow_dark">#FFAA00</color>
 </resources>

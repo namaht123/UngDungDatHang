@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.ung_dung_dat_hang.View.TrangChu.Fragment.FragmentChuongTrinhKhuyenMai;
 import com.example.ung_dung_dat_hang.View.TrangChu.Fragment.FragmentDienTu;
+import com.example.ung_dung_dat_hang.View.TrangChu.Fragment.FragmentGioHang;
 import com.example.ung_dung_dat_hang.View.TrangChu.Fragment.FragmentLamDep;
 import com.example.ung_dung_dat_hang.View.TrangChu.Fragment.FragmentMeVaBe;
 import com.example.ung_dung_dat_hang.View.TrangChu.Fragment.FragmentNhaCuaVaDoiSong;
@@ -43,6 +44,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         titleFragment.add("Thời trang");
         titleFragment.add("Thể thao & du lịch");
         titleFragment.add("Thương hiệu");
+
 
 
     }

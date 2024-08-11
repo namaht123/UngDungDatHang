@@ -1,64 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
         android:id="@+id/itSearch"
         android:title="Search"
         android:icon="@drawable/icon_search_white"
         app:showAsAction="always"
-        android:visible="false"
-        />
+        android:visible="false"/>
+
     <item
         android:id="@+id/itGioHang"
         android:title="Giỏ Hàng"
         android:icon="@drawable/icon_cart11"
-        app:showAsAction="always"
-        app:actionLayout="@layout/custum_item_giohang"
-        />
+        app:showAsAction="always" />
+
     <item
         android:icon="@drawable/menu"
         android:title="more"
-        app:showAsAction="always"
-        >
+        app:showAsAction="always">
+
         <menu>
             <item
                 android:id="@+id/itDangNhap"
                 android:title="Đăng Nhập"
-                android:icon="@drawable/icon_mcuoi"
-                />
+                android:icon="@drawable/icon_mcuoi"/>
             <item
                 android:id="@+id/itThongBao"
                 android:title="Thông Báo"
-                android:icon="@drawable/icon_bell"
-                />
+                android:icon="@drawable/icon_bell"/>
             <item
                 android:id="@+id/itMongMuon"
                 android:title="Danh sách mong muốn"
-                android:icon="@drawable/icon_hear"
-                />
+                android:icon="@drawable/icon_hear"/>
             <item
                 android:id="@+id/itDonHangCuaToi"
                 android:title="Đơn hàng của tôi"
-                android:icon="@drawable/icon_donhang"
-                />
+                android:icon="@drawable/icon_donhang"/>
             <item
                 android:id="@+id/CaiDat"
                 android:title="Cài đặt"
-                android:icon="@drawable/setting_icon"
-                />
+                android:icon="@drawable/setting_icon"/>
             <item
-                android:id="@+id/itChínhach"
+                android:id="@+id/itChinhSach"
                 android:title="Chính sách"
-                android:icon="@drawable/icon_even"
-                />
+                android:icon="@drawable/icon_even"/>
             <item
                 android:id="@+id/itTroGiup"
                 android:title="Trợ giúp"
-                android:icon="@drawable/icon_help"
-                />
-
+                android:icon="@drawable/icon_help"/>
         </menu>
-    </item>
 
+    </item>
 </menu>
