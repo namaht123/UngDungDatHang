@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.SanPham;
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.SanPhamKhuyenMai;
+import com.example.ung_dung_dat_hang.Model.ObjeactClass.ThuongHieu;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -286,6 +287,28 @@ public class DatabaseConnection {
             } catch (SQLException e) {
                 Log.e("Database Error", "Error fetching promotion products: " + e.getMessage());
             }
+        }
+        return list;
+    }
+    public List<ThuongHieu> getAllthuonghieu() {
+        List<ThuongHieu> list = new ArrayList<>();
+        Connection connection = getCon(); // Ensure getCon() is correctly implemented
+        if (connection != null) {
+            try {
+                Statement stmt = connection.createStatement();
+                String query = "SELECT * FROM thuonghieu"; // Ensure this matches your database schema
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    int mathuonghieu = rs.getInt("Mathuonghieu");
+                    String tenthuonghieu = rs.getString("Tenthuonghieu");
+                    String hinhthuonghieu = rs.getString("Hinhthuonghieu");
+                    list.add(new ThuongHieu(mathuonghieu, tenthuonghieu, hinhthuonghieu));
+                }
+            } catch (SQLException e) {
+                Log.e("Database Error", "Error fetching data: " + e.getMessage());
+            }
+        } else {
+            Log.e("Database Error", "Connection is null");
         }
         return list;
     }
