@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ung_dung_dat_hang.Adapter.SPMeBeAdapter;
+import com.example.ung_dung_dat_hang.Adapter.SanPhamdientuAdapter;
 import com.example.ung_dung_dat_hang.ConnnectInternet.DatabaseConnection;
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.SanPham;
 import com.example.ung_dung_dat_hang.R;
@@ -23,7 +24,7 @@ import java.util.List;
 public class FragmentDienTu extends Fragment {
     private DatabaseConnection databaseConnection;
     private RecyclerView recyclerView;
-    private SPMeBeAdapter spMeBeAdapter;
+    private SanPhamdientuAdapter sanphamdientuAdapter;
 
     @Nullable
     @Override
@@ -54,8 +55,8 @@ public class FragmentDienTu extends Fragment {
         @Override
         protected void onPostExecute(List<SanPham> sanPhamList) {
             if (sanPhamList != null) {
-                spMeBeAdapter = new SPMeBeAdapter(sanPhamList);
-                recyclerView.setAdapter(spMeBeAdapter);
+                sanphamdientuAdapter = new SanPhamdientuAdapter(sanPhamList);
+                recyclerView.setAdapter(sanphamdientuAdapter);
             } else {
                 Toast.makeText(requireContext(), "Không thể tải sản phẩm!", Toast.LENGTH_LONG).show();
             }
