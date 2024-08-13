@@ -12,6 +12,7 @@
         android:layout_height="wrap_content">
 
         <EditText
+            android:id="@+id/taikhoandangnhap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Địa chỉ Email"
@@ -25,6 +26,7 @@
         android:layout_height="wrap_content">
 
         <EditText
+            android:id="@+id/editmatkhaudangnhap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Mật khẩu"
@@ -48,6 +50,7 @@
         android:textStyle="bold"
         android:backgroundTint="#FF5722"
         android:layout_margin="10dp"
+        android:id="@+id/btndangnhap"
         />
     <TextView
         android:layout_width="match_parent"

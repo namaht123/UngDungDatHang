@@ -87,6 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Đăng Ký"
+            android:id="@+id/btndangky"
             android:padding="10dp"
             android:background="@color/bgLogo" />
 

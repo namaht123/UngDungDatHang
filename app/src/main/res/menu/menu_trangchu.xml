@@ -49,6 +49,12 @@
                 android:id="@+id/itTroGiup"
                 android:title="Trợ giúp"
                 android:icon="@drawable/icon_help"/>
+            <item
+                android:id="@+id/itdangxuat"
+                android:title="Đăng xuất"
+                android:icon="@drawable/baseline_logout_24"
+                />
+
         </menu>
 
     </item>

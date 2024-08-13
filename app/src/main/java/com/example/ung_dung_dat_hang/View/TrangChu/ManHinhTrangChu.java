@@ -1,9 +1,12 @@
 package com.example.ung_dung_dat_hang.View.TrangChu;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ExpandableListView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +29,7 @@ public class ManHinhTrangChu extends AppCompatActivity {
     private ViewPager viewPager;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
+    private ExpandableListView expandableListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,7 @@ public class ManHinhTrangChu extends AppCompatActivity {
         tabLayout = findViewById(R.id.tab);
         viewPager = findViewById(R.id.viewpager);
         drawerLayout = findViewById(R.id.drawerLayout);
-
+        expandableListView = findViewById(R.id.epMenu);
         // Set up the toolbar
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -61,6 +65,7 @@ public class ManHinhTrangChu extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_trangchu, menu);
+        updateMenu(menu);  // Pass the menu object to updateMenu
         return true;
     }
 
@@ -77,13 +82,29 @@ public class ManHinhTrangChu extends AppCompatActivity {
             Intent intent = new Intent(this, GioHangActivity.class);
             startActivity(intent);
             return true;
-        } else if (id == R.id.itDangNhap) {
+        } else  if (id == R.id.itDangNhap) {
             Intent iDangNhap = new Intent(this, DangNhapActivity.class);
             startActivity(iDangNhap);
+        } else if (id == R.id.itThongBao) {
+            // Add action for notifications if needed
+        } else if (id == R.id.itdangxuat) {
+            // Xóa thông tin đăng nhập
+            SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.remove("user_email");  // Xóa email hoặc thông tin cần thiết
+            editor.apply();
+
+            // Tải lại trang chủ
+            Intent intent = new Intent(this, ManHinhTrangChu.class);
+            startActivity(intent);
+            finish();  // Kết thúc Activity hiện tại để không quay lại trang đã đăng nhập
+
             return true;
         } else {
             return super.onOptionsItemSelected(item);
         }
+        return true;
+
     }
 
     private void showFragmentGioHang() {
@@ -105,4 +126,33 @@ public class ManHinhTrangChu extends AppCompatActivity {
         // Xác nhận giao dịch
         fragmentTransaction.commit();
     }
+    private void updateMenu(Menu menu) {
+        SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        String userEmail = preferences.getString("user_email", null);
+
+        MenuItem itDangNhap = menu.findItem(R.id.itDangNhap);
+        MenuItem itDangXuat = menu.findItem(R.id.itdangxuat);
+
+        if (itDangNhap != null) {
+            if (userEmail != null) {
+                itDangNhap.setTitle(userEmail);
+                itDangNhap.setIcon(null);  // Optionally remove icon
+                itDangXuat.setVisible(true);  // Show "Đăng xuất" menu item
+            } else {
+                itDangNhap.setTitle("Đăng Nhập");
+                itDangNhap.setIcon(R.drawable.icon_mcuoi);
+                itDangXuat.setVisible(false);  // Hide "Đăng xuất" menu item
+            }
+        } else {
+
+        }
+    }
+    // Trong Activity hoặc Fragment sau khi đăng nhập thành công
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Refresh the menu
+        invalidateOptionsMenu();
+    }
+
 }
