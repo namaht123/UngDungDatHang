@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ung_dung_dat_hang.Adapter.SanPhamAdapter;
@@ -40,7 +41,7 @@ public class FragmentNoiiBatt extends Fragment {
 
         // Setup RecyclerView with GridLayoutManager
         recyclerView = view.findViewById(R.id.spnoibat);
-        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2)); // 2 columns
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
 
         // Fetch and display products
         new FetchSanPhamTask().execute();

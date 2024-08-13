@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ung_dung_dat_hang.Adapter.SPthethaodlAdapter;
-import com.example.ung_dung_dat_hang.Adapter.SanPhamAdapter;
 import com.example.ung_dung_dat_hang.ConnnectInternet.DatabaseConnection;
+import com.example.ung_dung_dat_hang.ConnnectInternet.SessionManager;
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.SanPham;
 import com.example.ung_dung_dat_hang.R;
 
@@ -25,32 +25,42 @@ public class FragmentTheThaoVaDuLich extends Fragment {
     private DatabaseConnection databaseConnection;
     private RecyclerView recyclerView;
     private SPthethaodlAdapter sPthethaodlAdapter;
+    private SessionManager sessionManager;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.layout_thethaovadulich,container,false);
-        // Initialize the DatabaseConnection instance with context
+        View view = inflater.inflate(R.layout.layout_thethaovadulich, container, false);
+
+        // Initialize DatabaseConnection and SessionManager
         databaseConnection = new DatabaseConnection(requireContext());
+        sessionManager = new SessionManager(requireContext()); // Initialize SessionManager
 
         // Setup RecyclerView with GridLayoutManager
         recyclerView = view.findViewById(R.id.thethaodulich);
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2)); // 2 columns
 
         // Fetch and display products
-        new FragmentTheThaoVaDuLich.FetchSanPhamTask().execute();
+        new FetchSanPhamTask().execute();
+
         return view;
     }
+
     private class FetchSanPhamTask extends AsyncTask<Void, Void, List<SanPham>> {
 
         @Override
         protected List<SanPham> doInBackground(Void... voids) {
-            return databaseConnection.getSanPhamdulichList(); // Use the new method
+            if (databaseConnection.checkConnection()) {
+                return databaseConnection.getSanPhamdulichList(); // Fetch data from database
+            }
+            return null;
         }
 
         @Override
         protected void onPostExecute(List<SanPham> sanPhamList) {
             if (sanPhamList != null) {
-                sPthethaodlAdapter = new SPthethaodlAdapter(sanPhamList);
+                // Pass the SessionManager instance to the adapter
+                sPthethaodlAdapter = new SPthethaodlAdapter(sanPhamList, sessionManager);
                 recyclerView.setAdapter(sPthethaodlAdapter);
             } else {
                 Toast.makeText(requireContext(), "Không thể tải sản phẩm!", Toast.LENGTH_LONG).show();

@@ -258,82 +258,156 @@ public class DatabaseConnection {
         }
         return list;
     }
-
     public List<SanPham> getSanPhamlamdepList() {
         List<SanPham> list = new ArrayList<>();
-        Connection connection = getCon(); // Use the correct reference
+        Connection connection = getCon(); // Ensure this is correct
         if (connection != null) {
             try {
                 Statement stmt = connection.createStatement();
-                String query = "SELECT * FROM SanPham WHERE MaLoai = 4 "; // Modify as needed
+                String query = "SELECT sp.MaSP AS maSP, " +
+                        "       sp.TenSP AS tenSP, " +
+                        "       sp.Gia AS gia, " +
+                        "       sp.Thong_tin AS thongTin, " +
+                        "       sp.Anh AS anh, " +
+                        "       sp.SoLuong AS soLuong, " +
+                        "       sp.AnhNho AS anhNho, " +
+                        "       sp.MaLoai AS maLoai, " +
+                        "       sp.MaThuongHieu AS maThuongHieu, " +
+                        "       COALESCE(spkm.PhanTramKhuyenMai, 0) AS phanTramKhuyenMai " +
+                        "FROM SanPham sp " +
+                        "LEFT JOIN SanPhamKhuyenMai spkm ON sp.MaSP = spkm.MaSP AND " +
+                        "                                    GETDATE() BETWEEN spkm.NgayBatDauKM AND spkm.NgayKetThucKM " +
+                        "WHERE sp.MaLoai = 4"; // Modify as needed
+
+                Log.d("DatabaseQuery", "Executing query: " + query);
                 ResultSet rs = stmt.executeQuery(query);
                 while (rs.next()) {
-                    int maSP = rs.getInt("MaSP");
-                    String tenSP = rs.getString("TenSP");
-                    double gia = rs.getDouble("Gia");
-                    String thongTin = rs.getString("Thong_tin");
-                    String anh = rs.getString("Anh");
-                    int soLuong = rs.getInt("SoLuong");
-                    String anhNho = rs.getString("AnhNho");
-                    int maLoai = rs.getInt("MaLoai");
-                    int maThuongHieu = rs.getInt("Mathuonghieu");
-                    list.add(new SanPham(maSP, tenSP, gia, thongTin, anh, soLuong, anhNho, maLoai, maThuongHieu));
+                    int maSP = rs.getInt("maSP");
+                    String tenSP = rs.getString("tenSP");
+                    double gia = rs.getDouble("gia");
+                    String thongTin = rs.getString("thongTin");
+                    String anh = rs.getString("anh");
+                    int soLuong = rs.getInt("soLuong");
+                    String anhNho = rs.getString("anhNho");
+                    int maLoai = rs.getInt("maLoai");
+                    int maThuongHieu = rs.getInt("maThuongHieu");
+                    double phanTramKhuyenMai = rs.getDouble("phanTramKhuyenMai");
+
+                    // Store discount percentage in session
+                    SessionManager sessionManager = new SessionManager(getContext()); // Replace with actual context
+                    sessionManager.setDiscountPercentage(maSP, phanTramKhuyenMai);
+
+                    // Create SanPham object
+                    SanPham sanPham = new SanPham(maSP, tenSP, gia, thongTin, anh, soLuong, anhNho, maLoai, maThuongHieu);
+                    list.add(sanPham);
                 }
             } catch (SQLException e) {
                 Log.e("Database Error", "Error fetching products: " + e.getMessage());
             }
+        } else {
+            Log.e("Database Connection", "Connection is null.");
         }
         return list;
     }
     public List<SanPham> getSanPhamthoitrangList() {
         List<SanPham> list = new ArrayList<>();
-        Connection connection = getCon(); // Use the correct reference
+        Connection connection = getCon(); // Ensure this is correct
         if (connection != null) {
             try {
                 Statement stmt = connection.createStatement();
-                String query = "SELECT * FROM SanPham WHERE MaLoai = 5 "; // Modify as needed
+                String query = "SELECT sp.MaSP AS maSP, " +
+                        "       sp.TenSP AS tenSP, " +
+                        "       sp.Gia AS gia, " +
+                        "       sp.Thong_tin AS thongTin, " +
+                        "       sp.Anh AS anh, " +
+                        "       sp.SoLuong AS soLuong, " +
+                        "       sp.AnhNho AS anhNho, " +
+                        "       sp.MaLoai AS maLoai, " +
+                        "       sp.MaThuongHieu AS maThuongHieu, " +
+                        "       COALESCE(spkm.PhanTramKhuyenMai, 0) AS phanTramKhuyenMai " +
+                        "FROM SanPham sp " +
+                        "LEFT JOIN SanPhamKhuyenMai spkm ON sp.MaSP = spkm.MaSP AND " +
+                        "                                    GETDATE() BETWEEN spkm.NgayBatDauKM AND spkm.NgayKetThucKM " +
+                        "WHERE sp.MaLoai = 5"; // Modify as needed
+
+                Log.d("DatabaseQuery", "Executing query: " + query);
                 ResultSet rs = stmt.executeQuery(query);
                 while (rs.next()) {
-                    int maSP = rs.getInt("MaSP");
-                    String tenSP = rs.getString("TenSP");
-                    double gia = rs.getDouble("Gia");
-                    String thongTin = rs.getString("Thong_tin");
-                    String anh = rs.getString("Anh");
-                    int soLuong = rs.getInt("SoLuong");
-                    String anhNho = rs.getString("AnhNho");
-                    int maLoai = rs.getInt("MaLoai");
-                    int maThuongHieu = rs.getInt("Mathuonghieu");
-                    list.add(new SanPham(maSP, tenSP, gia, thongTin, anh, soLuong, anhNho, maLoai, maThuongHieu));
+                    int maSP = rs.getInt("maSP");
+                    String tenSP = rs.getString("tenSP");
+                    double gia = rs.getDouble("gia");
+                    String thongTin = rs.getString("thongTin");
+                    String anh = rs.getString("anh");
+                    int soLuong = rs.getInt("soLuong");
+                    String anhNho = rs.getString("anhNho");
+                    int maLoai = rs.getInt("maLoai");
+                    int maThuongHieu = rs.getInt("maThuongHieu");
+                    double phanTramKhuyenMai = rs.getDouble("phanTramKhuyenMai");
+
+                    // Store discount percentage in session
+                    SessionManager sessionManager = new SessionManager(getContext()); // Replace with actual context
+                    sessionManager.setDiscountPercentage(maSP, phanTramKhuyenMai);
+
+                    // Create SanPham object
+                    SanPham sanPham = new SanPham(maSP, tenSP, gia, thongTin, anh, soLuong, anhNho, maLoai, maThuongHieu);
+                    list.add(sanPham);
                 }
             } catch (SQLException e) {
                 Log.e("Database Error", "Error fetching products: " + e.getMessage());
             }
+        } else {
+            Log.e("Database Connection", "Connection is null.");
         }
         return list;
     }
     public List<SanPham> getSanPhamdulichList() {
         List<SanPham> list = new ArrayList<>();
-        Connection connection = getCon(); // Use the correct reference
+        Connection connection = getCon(); // Ensure this is correct
         if (connection != null) {
             try {
                 Statement stmt = connection.createStatement();
-                String query = "SELECT * FROM SanPham WHERE MaLoai = 6 "; // Modify as needed
+                String query = "SELECT sp.MaSP AS maSP, " +
+                        "       sp.TenSP AS tenSP, " +
+                        "       sp.Gia AS gia, " +
+                        "       sp.Thong_tin AS thongTin, " +
+                        "       sp.Anh AS anh, " +
+                        "       sp.SoLuong AS soLuong, " +
+                        "       sp.AnhNho AS anhNho, " +
+                        "       sp.MaLoai AS maLoai, " +
+                        "       sp.MaThuongHieu AS maThuongHieu, " +
+                        "       COALESCE(spkm.PhanTramKhuyenMai, 0) AS phanTramKhuyenMai " +
+                        "FROM SanPham sp " +
+                        "LEFT JOIN SanPhamKhuyenMai spkm ON sp.MaSP = spkm.MaSP AND " +
+                        "                                    GETDATE() BETWEEN spkm.NgayBatDauKM AND spkm.NgayKetThucKM " +
+                        "WHERE sp.MaLoai = 6"; // Modify as needed
+
+                Log.d("DatabaseQuery", "Executing query: " + query);
                 ResultSet rs = stmt.executeQuery(query);
                 while (rs.next()) {
-                    int maSP = rs.getInt("MaSP");
-                    String tenSP = rs.getString("TenSP");
-                    double gia = rs.getDouble("Gia");
-                    String thongTin = rs.getString("Thong_tin");
-                    String anh = rs.getString("Anh");
-                    int soLuong = rs.getInt("SoLuong");
-                    String anhNho = rs.getString("AnhNho");
-                    int maLoai = rs.getInt("MaLoai");
-                    int maThuongHieu = rs.getInt("Mathuonghieu");
-                    list.add(new SanPham(maSP, tenSP, gia, thongTin, anh, soLuong, anhNho, maLoai, maThuongHieu));
+                    int maSP = rs.getInt("maSP");
+                    String tenSP = rs.getString("tenSP");
+                    double gia = rs.getDouble("gia");
+                    String thongTin = rs.getString("thongTin");
+                    String anh = rs.getString("anh");
+                    int soLuong = rs.getInt("soLuong");
+                    String anhNho = rs.getString("anhNho");
+                    int maLoai = rs.getInt("maLoai");
+                    int maThuongHieu = rs.getInt("maThuongHieu");
+                    double phanTramKhuyenMai = rs.getDouble("phanTramKhuyenMai");
+
+                    // Store discount percentage in session
+                    SessionManager sessionManager = new SessionManager(getContext()); // Replace with actual context
+                    sessionManager.setDiscountPercentage(maSP, phanTramKhuyenMai);
+
+                    // Create SanPham object
+                    SanPham sanPham = new SanPham(maSP, tenSP, gia, thongTin, anh, soLuong, anhNho, maLoai, maThuongHieu);
+                    list.add(sanPham);
                 }
             } catch (SQLException e) {
                 Log.e("Database Error", "Error fetching products: " + e.getMessage());
             }
+        } else {
+            Log.e("Database Connection", "Connection is null.");
         }
         return list;
     }

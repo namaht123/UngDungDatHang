@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ung_dung_dat_hang.Adapter.SanPhamlamdepAdapter;
 import com.example.ung_dung_dat_hang.ConnnectInternet.DatabaseConnection;
+import com.example.ung_dung_dat_hang.ConnnectInternet.SessionManager;
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.SanPham;
 import com.example.ung_dung_dat_hang.R;
 
@@ -25,22 +26,27 @@ public class FragmentLamDep extends Fragment {
     private DatabaseConnection databaseConnection;
     private RecyclerView recyclerView;
     private SanPhamlamdepAdapter sanphamlamdepAdapter;
+    private SessionManager sessionManager;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.layout_lamdep,container,false);
-        // Initialize the DatabaseConnection instance with context
+        View view = inflater.inflate(R.layout.layout_lamdep, container, false);
+
+        // Initialize DatabaseConnection and SessionManager
         databaseConnection = new DatabaseConnection(requireContext());
+        sessionManager = new SessionManager(requireContext());
 
         // Setup RecyclerView with GridLayoutManager
         recyclerView = view.findViewById(R.id.lamdep);
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2)); // 2 columns
 
         // Fetch and display products
-        new FragmentLamDep.FetchSanPhamTask().execute();
+        new FetchSanPhamTask().execute();
+
         return view;
     }
+
     private class FetchSanPhamTask extends AsyncTask<Void, Void, List<SanPham>> {
 
         @Override
@@ -54,7 +60,8 @@ public class FragmentLamDep extends Fragment {
         @Override
         protected void onPostExecute(List<SanPham> sanPhamList) {
             if (sanPhamList != null) {
-                sanphamlamdepAdapter = new SanPhamlamdepAdapter(sanPhamList);
+                // Pass the SessionManager instance to the adapter
+                sanphamlamdepAdapter = new SanPhamlamdepAdapter(sanPhamList, sessionManager);
                 recyclerView.setAdapter(sanphamlamdepAdapter);
             } else {
                 Toast.makeText(requireContext(), "Không thể tải sản phẩm!", Toast.LENGTH_LONG).show();

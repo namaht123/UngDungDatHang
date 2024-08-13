@@ -52,7 +52,7 @@ public class FragmentDienTu extends Fragment {
         @Override
         protected List<SanPham> doInBackground(Void... voids) {
             if (databaseConnection.checkConnection()) {
-                return databaseConnection.getSanPhamMevaBeList(); // Fetch data from database
+                return databaseConnection.getSanPhamdientuList(); // Fetch data from database
             }
             return null;
         }
