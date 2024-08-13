@@ -32,8 +32,8 @@ public class DatabaseConnection {
         protected Boolean doInBackground(Void... voids) {
             ip = "10.0.2.2"; // IP address for localhost in Android Emulator
             database = "data_Lazada";
-            uname = "Trung";
-            pass = "123";
+            uname = "Sang";
+            pass = "261102";
             port = "1433"; // Default port for SQL Server
             String ConnectionURL;
             try {
