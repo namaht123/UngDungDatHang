@@ -1,17 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent">
 
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:text="Noi bat"-->
-<!--        android:layout_height="wrap_content"/>-->
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/spnoibat"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <!-- Banner lớn -->
+        <ImageView
+            android:id="@+id/banner_large"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/banner1" />
+
+        <!-- LinearLayout chứa hai banner nhỏ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Banner nhỏ 1 -->
+            <ImageView
+                android:id="@+id/banner_small_1"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:src="@drawable/banner2" />
+
+            <!-- Banner nhỏ 2 -->
+            <ImageView
+                android:id="@+id/banner_small_2"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:src="@drawable/banner3" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Tiêu đề sản phẩm bán chạy -->
+            <TextView
+                android:id="@+id/text_bestselling"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Sản phẩm bán chạy"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- RecyclerView chứa sản phẩm bán chạy -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/spnoibat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
