@@ -42,18 +42,21 @@
               android:background="@drawable/bg_search"
               android:layout_margin="13dp">
 
-            <Button
+            <EditText
+                android:id="@+id/timkiem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/white"
                 android:drawableLeft="@drawable/icon_search_s"
-                android:text="Tìm kiếm trên lazada"
+                android:hint="Tìm kiếm trên lazada"
                 android:textColor="@color/cologray"
                 android:gravity="center|start"
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
                 android:layout_weight="1"
-                android:paddingLeft="10dp"/>
+                android:paddingLeft="10dp"
+                android:imeOptions="actionSearch"/>
+
 
             <View
                 android:layout_width="1dp"

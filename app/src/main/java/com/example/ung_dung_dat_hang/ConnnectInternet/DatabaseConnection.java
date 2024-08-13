@@ -11,6 +11,7 @@ import com.example.ung_dung_dat_hang.Model.ObjeactClass.ThuongHieu;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -61,6 +62,8 @@ public class DatabaseConnection {
             }
         }
     }
+
+
 
     public Connection getCon() {
         return con;
@@ -613,6 +616,10 @@ public class DatabaseConnection {
         Log.d("DataFetch", "List size: " + list.size());
         return list;
     }
+
+
+
+
 
 
 }
