@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ung_dung_dat_hang.Adapter.SanPhamAdapter;
 import com.example.ung_dung_dat_hang.ConnnectInternet.DatabaseConnection;
+import com.example.ung_dung_dat_hang.ConnnectInternet.SessionManager; // Import SessionManager
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.SanPham;
 import com.example.ung_dung_dat_hang.R;
 
@@ -25,6 +26,7 @@ public class FragmentNoiiBatt extends Fragment {
     private DatabaseConnection databaseConnection;
     private RecyclerView recyclerView;
     private SanPhamAdapter sanPhamAdapter;
+    private SessionManager sessionManager; // Declare SessionManager
 
     @Nullable
     @Override
@@ -33,6 +35,8 @@ public class FragmentNoiiBatt extends Fragment {
 
         // Initialize the DatabaseConnection instance with context
         databaseConnection = new DatabaseConnection(requireContext());
+        // Initialize the SessionManager instance
+        sessionManager = new SessionManager(requireContext());
 
         // Setup RecyclerView with GridLayoutManager
         recyclerView = view.findViewById(R.id.spnoibat);
@@ -48,13 +52,14 @@ public class FragmentNoiiBatt extends Fragment {
 
         @Override
         protected List<SanPham> doInBackground(Void... voids) {
-            return databaseConnection.getSanPhamList(); // Use the new method
+            return databaseConnection.getAllBanChay(); // Use the new method
         }
 
         @Override
         protected void onPostExecute(List<SanPham> sanPhamList) {
             if (sanPhamList != null) {
-                sanPhamAdapter = new SanPhamAdapter(sanPhamList);
+                // Pass sessionManager to SanPhamAdapter
+                sanPhamAdapter = new SanPhamAdapter(sanPhamList, sessionManager);
                 recyclerView.setAdapter(sanPhamAdapter);
             } else {
                 Toast.makeText(requireContext(), "Không thể tải sản phẩm!", Toast.LENGTH_LONG).show();

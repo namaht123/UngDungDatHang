@@ -1,5 +1,6 @@
 package com.example.ung_dung_dat_hang.Adapter;
 
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.ung_dung_dat_hang.ConnnectInternet.SessionManager;
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.SanPham;
 import com.example.ung_dung_dat_hang.R;
 
@@ -18,9 +20,11 @@ import java.util.List;
 public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamViewHolder> {
 
     private List<SanPham> sanPhamList;
+    private SessionManager sessionManager;
 
-    public SanPhamAdapter(List<SanPham> sanPhamList) {
+    public SanPhamAdapter(List<SanPham> sanPhamList, SessionManager sessionManager) {
         this.sanPhamList = sanPhamList;
+        this.sessionManager = sessionManager;
     }
 
     @NonNull
@@ -33,41 +37,64 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
     @Override
     public void onBindViewHolder(@NonNull SanPhamViewHolder holder, int position) {
         SanPham sanPham = sanPhamList.get(position);
-        holder.tvTenSP.setText(sanPham.getTenSP());
-        holder.tvGia.setText(String.valueOf(sanPham.getGia()));
-        holder.tvThongTin.setText(sanPham.getThongTin());
 
-        // Kiểm tra URL
-        String imageUrl = sanPham.getAnh();
-        if (imageUrl != null && !imageUrl.isEmpty()) {
-            Glide.with(holder.itemView.getContext())
-                    .load(imageUrl)
-                    .placeholder(R.drawable.placeholder)
-                    .error(R.drawable.error)
-                    .into(holder.anhsp);
+        holder.tenSPTextView.setText(sanPham.getTenSP());
+
+        double giaGoc = sanPham.getGia();
+        double phanTramKhuyenMai = sessionManager.getDiscountPercentage(sanPham.getMaSP());
+
+        if (phanTramKhuyenMai > 0) {
+            // Calculate discounted price
+            double giaSauGiam = giaGoc * (1 - phanTramKhuyenMai / 100);
+
+            // Display discount percentage
+            holder.txtPhanTramGiamGia.setText(String.format("%,.0f%%", phanTramKhuyenMai));
+            holder.txtPhanTramGiamGia.setVisibility(View.VISIBLE);
+
+            // Display original price with strikethrough
+            holder.giagoc.setText(String.format("Giá gốc: %,.0f VND", giaGoc));
+            holder.giagoc.setPaintFlags(holder.giagoc.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+            // Display discounted price
+            holder.giaTextView.setText(String.format("Giá sau giảm: %,.0f VND", giaSauGiam));
         } else {
-            // Nếu URL không hợp lệ, đặt ảnh mặc định hoặc ẩn ImageView
-            holder.anhsp.setImageResource(R.drawable.error); // Hoặc ẩn ImageView
+            // Hide discount view if no discount
+            holder.txtPhanTramGiamGia.setVisibility(View.GONE);
+
+            // Display only the original price
+            holder.giagoc.setText(String.format("Giá: %,.0f VND", giaGoc));
+            holder.giagoc.setPaintFlags(holder.giagoc.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            holder.giaTextView.setText(""); // Clear the discounted price field
         }
+
+        // Load image with Glide
+        Glide.with(holder.itemView.getContext())
+                .load(sanPham.getAnh())
+                .into(holder.anhImageView);
     }
+
+
+
 
     @Override
     public int getItemCount() {
         return sanPhamList.size();
     }
 
-    static class SanPhamViewHolder extends RecyclerView.ViewHolder {
-        ImageView anhsp;
-        TextView tvTenSP;
-        TextView tvGia;
-        TextView tvThongTin;
+    public static class SanPhamViewHolder extends RecyclerView.ViewHolder {
+        TextView tenSPTextView;
+        TextView giaTextView;
+        ImageView anhImageView;
+        TextView txtPhanTramGiamGia, giagoc;
+
 
         public SanPhamViewHolder(@NonNull View itemView) {
             super(itemView);
-            anhsp = itemView.findViewById(R.id.anhsp);
-            tvTenSP = itemView.findViewById(R.id.tvTenSP);
-            tvGia = itemView.findViewById(R.id.tvGia);
-            tvThongTin = itemView.findViewById(R.id.tvThongTin);
+            tenSPTextView = itemView.findViewById(R.id.tvTenSP);
+            giaTextView = itemView.findViewById(R.id.tvGia);
+            anhImageView = itemView.findViewById(R.id.anhsp);
+            txtPhanTramGiamGia = itemView.findViewById(R.id.txtPhanTramGiamGia);
+            giagoc = itemView.findViewById(R.id.tvgiagoc);
         }
     }
 }

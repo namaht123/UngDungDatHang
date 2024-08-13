@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ung_dung_dat_hang.Adapter.SPMeBeAdapter;
+import com.example.ung_dung_dat_hang.Adapter.SPnhavadoisongAdapter;
 import com.example.ung_dung_dat_hang.ConnnectInternet.DatabaseConnection;
+import com.example.ung_dung_dat_hang.ConnnectInternet.SessionManager;
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.SanPham;
 import com.example.ung_dung_dat_hang.R;
 
@@ -25,6 +27,7 @@ public class FragmentMeVaBe extends Fragment {
     private DatabaseConnection databaseConnection;
     private RecyclerView recyclerView;
     private SPMeBeAdapter spMeBeAdapter;
+    private SessionManager sessionManager;
 
     @Nullable
     @Override
@@ -33,7 +36,7 @@ public class FragmentMeVaBe extends Fragment {
 
         // Initialize the DatabaseConnection instance with context
         databaseConnection = new DatabaseConnection(requireContext());
-
+        sessionManager = new SessionManager(requireContext()); // Initialize SessionManager
         // Setup RecyclerView with GridLayoutManager
         recyclerView = view.findViewById(R.id.mevabe);
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2)); // 2 columns
@@ -57,7 +60,8 @@ public class FragmentMeVaBe extends Fragment {
         @Override
         protected void onPostExecute(List<SanPham> sanPhamList) {
             if (sanPhamList != null) {
-                spMeBeAdapter = new SPMeBeAdapter(sanPhamList);
+                // Pass the SessionManager instance to the adapter
+                spMeBeAdapter = new SPMeBeAdapter(sanPhamList, sessionManager);
                 recyclerView.setAdapter(spMeBeAdapter);
             } else {
                 Toast.makeText(requireContext(), "Không thể tải sản phẩm!", Toast.LENGTH_LONG).show();

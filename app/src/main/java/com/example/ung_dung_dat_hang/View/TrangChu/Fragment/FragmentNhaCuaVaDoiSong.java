@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ung_dung_dat_hang.Adapter.SPnhavadoisongAdapter;
 import com.example.ung_dung_dat_hang.ConnnectInternet.DatabaseConnection;
+import com.example.ung_dung_dat_hang.ConnnectInternet.SessionManager;
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.SanPham;
 import com.example.ung_dung_dat_hang.R;
 
@@ -25,14 +26,16 @@ public class FragmentNhaCuaVaDoiSong extends Fragment {
     private DatabaseConnection databaseConnection;
     private RecyclerView recyclerView;
     private SPnhavadoisongAdapter spnhavadoisongAdapter;
+    private SessionManager sessionManager;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_nhacuavadoisong, container, false); // Update layout file name
 
-        // Initialize the DatabaseConnection instance with context
+        // Initialize the DatabaseConnection and SessionManager instances with context
         databaseConnection = new DatabaseConnection(requireContext());
+        sessionManager = new SessionManager(requireContext()); // Initialize SessionManager
 
         // Setup RecyclerView with GridLayoutManager
         recyclerView = view.findViewById(R.id.nhavadoisong); // Ensure this ID matches the one in your layout XML
@@ -57,7 +60,8 @@ public class FragmentNhaCuaVaDoiSong extends Fragment {
         @Override
         protected void onPostExecute(List<SanPham> sanPhamList) {
             if (sanPhamList != null) {
-                spnhavadoisongAdapter = new SPnhavadoisongAdapter(sanPhamList);
+                // Pass the SessionManager instance to the adapter
+                spnhavadoisongAdapter = new SPnhavadoisongAdapter(sanPhamList, sessionManager);
                 recyclerView.setAdapter(spnhavadoisongAdapter);
             } else {
                 Toast.makeText(requireContext(), "Không thể tải sản phẩm!", Toast.LENGTH_LONG).show();

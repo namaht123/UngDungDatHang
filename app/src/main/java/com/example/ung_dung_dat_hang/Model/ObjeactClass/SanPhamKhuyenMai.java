@@ -1,6 +1,6 @@
 package com.example.ung_dung_dat_hang.Model.ObjeactClass;
 
-public class SanPhamKhuyenMai {
+public class SanPhamKhuyenMai extends SanPham {
     private int maSPKM;
     private String tenSPKM;
     private String ngayBatDauKM;
@@ -12,6 +12,9 @@ public class SanPhamKhuyenMai {
     private String anhNho;   // URL or path to the thumbnail image
     private double giaGoc;
 
+    public SanPhamKhuyenMai() {
+        // No-argument constructor
+    }
     // Constructor
     public SanPhamKhuyenMai(int maSPKM, String tenSPKM, String ngayBatDauKM, String ngayKetThucKM,
                             double phanTramKhuyenMai, int maKhuyenMai, int maSP, String hinhAnh,
@@ -124,4 +127,5 @@ public class SanPhamKhuyenMai {
                 ", giaGoc=" + giaGoc +
                 '}';
     }
+
 }

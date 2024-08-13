@@ -11,6 +11,9 @@ public class SanPham {
     private int maLoai;
     private int maThuongHieu;
 
+    public SanPham() {
+        // No-argument constructor
+    }
     public SanPham(int maSP, String tenSP, double gia, String thongTin, String anh, int soLuong, String anhNho, int maLoai, int maThuongHieu) {
         this.maSP = maSP;
         this.tenSP = tenSP;

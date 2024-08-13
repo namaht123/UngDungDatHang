@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="179dp"
-        android:layout_height="245dp"
+        android:layout_height="287dp"
         android:layout_marginStart="8dp"
         android:background="@drawable/backgroud_sanpham"
         android:orientation="vertical"
@@ -19,8 +19,8 @@
         app:layout_constraintVertical_bias="0.017">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="252dp">
+            android:layout_width="163dp"
+            android:layout_height="272dp">
 
             <ImageView
                 android:id="@+id/anhsp"
@@ -40,6 +40,8 @@
                 android:text="Tên sản phẩm"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
+                android:maxLines="2"
+                android:ellipsize="end"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.506"
                 app:layout_constraintStart_toStartOf="parent"
@@ -58,11 +60,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvTenSP" />
 
             <TextView
-                android:id="@+id/tvThongTin"
+                android:id="@+id/tvgiagoc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Thông tin sản phẩm"
+                android:text="gia goc"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -70,6 +72,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvGia" />
 
+            <TextView
+                android:id="@+id/txtPhanTramGiamGia"
+                android:layout_width="49dp"
+                android:layout_height="37dp"
+                android:background="@drawable/bg_bacgroud_sales"
+                android:gravity="center"
+                android:text="50%"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

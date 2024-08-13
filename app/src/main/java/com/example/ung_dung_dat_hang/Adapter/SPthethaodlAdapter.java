@@ -67,7 +67,7 @@ public class SPthethaodlAdapter extends RecyclerView.Adapter<SPthethaodlAdapter.
             anhsp = itemView.findViewById(R.id.anhsp);
             tvTenSP = itemView.findViewById(R.id.tvTenSP);
             tvGia = itemView.findViewById(R.id.tvGia);
-            tvThongTin = itemView.findViewById(R.id.tvThongTin);
+            tvThongTin = itemView.findViewById(R.id.tvgiagoc);
         }
     }
 }
