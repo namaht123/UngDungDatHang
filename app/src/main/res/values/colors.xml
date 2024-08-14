@@ -6,4 +6,7 @@
     <color name="bgLogo">#17AA9C</color>
     <color name="cologray">#ccc</color>
     <color name="yellow_dark">#FFAA00</color>
+    <color name="red">#EB0C0C</color>
+    <color name="green">#4DBD10</color>
+
 </resources>
