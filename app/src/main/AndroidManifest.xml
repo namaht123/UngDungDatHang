@@ -20,7 +20,12 @@
         <activity
             android:name=".View.GioHang.GioHangActivity"
             android:exported="false"
-            android:label="@string/title_activity_gio_hang"
+
+            android:theme="@style/Theme.Ung_Dung_Dat_Hang" />
+        <activity
+            android:name=".View.ThanhToan.ThanhToanActivity"
+            android:exported="false"
+            android:label="@string/title_activity_thanh_toan"
             android:theme="@style/Theme.Ung_Dung_Dat_Hang" />
         <activity
             android:name=".View.DangNhap.DangNhapActivity"

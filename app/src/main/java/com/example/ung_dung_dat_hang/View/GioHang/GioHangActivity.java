@@ -12,10 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ung_dung_dat_hang.Adapter.GioHangAdapter;
 import com.example.ung_dung_dat_hang.R;
 import com.example.ung_dung_dat_hang.View.DangNhap.DangNhapActivity;
+import com.example.ung_dung_dat_hang.View.ThanhToan.ThanhToanActivity;
 import com.example.ung_dung_dat_hang.View.TrangChu.ManHinhTrangChu;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -25,7 +27,6 @@ public class GioHangActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private GioHangAdapter adapter;
     private TextView txtTongTien, txtSoLuong;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +37,15 @@ public class GioHangActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
-
         recyclerView = findViewById(R.id.recycleGioHang);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         txtTongTien = findViewById(R.id.tvTongTien);
         txtSoLuong = findViewById(R.id.tvSoLuong);
+        Button btnMuaNgay = findViewById(R.id.btnmuangay);
+        btnMuaNgay.setOnClickListener(v -> {
+            Intent intent = new Intent(GioHangActivity.this, ThanhToanActivity.class);
+            startActivity(intent);
+        });
 
         adapter = new GioHangAdapter(this, loadCartItems());
         recyclerView.setAdapter(adapter);

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cologray">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bgToolbar">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+    </com.google.android.material.appbar.AppBarLayout>
+    <LinearLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_margin="20dp"
+        android:padding="10dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gui toi:"
+            android:textColor="@color/bgLogo"
+            android:layout_marginTop="5dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ten nguoi nhan"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border_thanhtoan"
+            android:textSize="14sp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:hint="Dia chi giao hang"
+            android:gravity="top"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border_thanhtoan"
+            android:textSize="14sp"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="So dien thoai"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border_thanhtoan"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tuy chon giao hang:"
+            android:textColor="@color/bgLogo"
+            android:layout_marginTop="5dp"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="10dp">
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/shipcod"
+            android:scaleType="centerInside"
+            android:background="@color/white"
+            android:layout_weight="1"
+            />
+            <ImageButton
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/shipvisa"
+                android:scaleType="centerInside"
+                android:background="@color/white"
+                android:layout_weight="1"
+                />
+        </LinearLayout>
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Toi cam ket cac thong tin tren la hoan toan chinh xac"
+            android:layout_margin="10dp"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Thanh toan"
+            android:background="@color/bgLogo"
+            android:layout_gravity="bottom"
+            android:layout_margin="10dp"
+            />
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
