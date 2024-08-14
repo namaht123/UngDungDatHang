@@ -20,8 +20,7 @@
             android:layout_width="100dp"
             android:layout_height="140dp"
             android:src="@drawable/backgroud_sanpham"
-            android:scaleType="centerCrop"
-            />
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tên sản phẩm"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginBottom="5dp" />
 
             <TextView
                 android:id="@+id/giasanphamgiohang"
@@ -43,14 +42,48 @@
                 android:layout_height="wrap_content"
                 android:text="Giá sản phẩm"
                 android:textColor="@color/red"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
-            <TextView
-                android:id="@+id/soluong"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Số lượng: 1"
-                android:textAlignment="center"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <Button
+                    android:id="@+id/btnGiam"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="-"
+                    android:textSize="18sp"
+                    android:textColor="@color/white"
+                    android:layout_marginEnd="5dp"
+                    android:backgroundTint="@color/bgLogo"
+                android:gravity="center"
+                android:padding="0dp"
+                />
+
+                <TextView
+                    android:id="@+id/soluongsanphamgiohang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textAlignment="center" />
+
+                <Button
+                    android:id="@+id/btnTang"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="+"
+                    android:textSize="18sp"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="5dp"
+                    android:backgroundTint="@color/bgLogo"
+                    android:gravity="center"
+                    android:padding="0dp"
+                    />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/giagiamsanphamgiohang"
@@ -58,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:text="Giá giảm"
                 android:textAlignment="center"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </LinearLayout>
 
         <ImageView
@@ -66,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_delete_24"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

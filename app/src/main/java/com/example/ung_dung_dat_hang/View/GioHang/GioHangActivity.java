@@ -6,21 +6,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import com.example.ung_dung_dat_hang.Adapter.GioHangAdapter;
-import com.example.ung_dung_dat_hang.R;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +13,10 @@ import com.example.ung_dung_dat_hang.Adapter.GioHangAdapter;
 import com.example.ung_dung_dat_hang.R;
 import com.example.ung_dung_dat_hang.View.DangNhap.DangNhapActivity;
 import com.example.ung_dung_dat_hang.View.TrangChu.ManHinhTrangChu;
+
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +47,10 @@ public class GioHangActivity extends AppCompatActivity {
 
         adapter.setOnItemRemoveListener(position -> {
             removeCartItem(position);
+            recalculateTotal();
+        });
+
+        adapter.setOnQuantityChangeListener(() -> {
             recalculateTotal();
         });
     }
@@ -141,7 +134,6 @@ public class GioHangActivity extends AppCompatActivity {
 
         return cartItems;
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
