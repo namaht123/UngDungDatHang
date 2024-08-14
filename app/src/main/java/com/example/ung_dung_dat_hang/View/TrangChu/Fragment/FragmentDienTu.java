@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,20 +28,18 @@ public class FragmentDienTu extends Fragment {
     private SessionManager sessionManager;
     private RecyclerView recyclerView;
     private SanPhamdientuAdapter sanPhamdientuAdapter;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.layout_mevabe, container, false);
+        View view = inflater.inflate(R.layout.layout_dientu, container, false);
 
         // Initialize the DatabaseConnection and SessionManager instances
         databaseConnection = new DatabaseConnection(requireContext());
         sessionManager = new SessionManager(requireContext());
 
         // Setup RecyclerView with GridLayoutManager
-        recyclerView = view.findViewById(R.id.mevabe);
+        recyclerView = view.findViewById(R.id.dientu);
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2)); // 2 columns
-
         // Fetch and display products
         new FetchSanPhamTask().execute();
 
