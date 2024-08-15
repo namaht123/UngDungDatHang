@@ -19,9 +19,11 @@ import java.util.List;
 public class ThuongHieuAdapter extends RecyclerView.Adapter<ThuongHieuAdapter.ThuonghieuViewHolder> {
 
     private List<ThuongHieu> thuongHieuList;
+    private OnThuongHieuClickListener onThuongHieuClickListener;
 
-    public ThuongHieuAdapter(List<ThuongHieu> thuongHieuList) {
+    public ThuongHieuAdapter(List<ThuongHieu> thuongHieuList, OnThuongHieuClickListener listener) {
         this.thuongHieuList = thuongHieuList;
+        this.onThuongHieuClickListener = listener;
     }
 
     @NonNull
@@ -36,17 +38,26 @@ public class ThuongHieuAdapter extends RecyclerView.Adapter<ThuongHieuAdapter.Th
     public void onBindViewHolder(@NonNull ThuonghieuViewHolder holder, int position) {
         ThuongHieu thuongHieu = thuongHieuList.get(position);
         holder.textViewTenThuongHieu.setText(thuongHieu.getTenthuonghieu());
-        Log.d("Adapter", "Binding data: " + thuongHieu.toString());
         Glide.with(holder.itemView.getContext())
                 .load(thuongHieu.getHinhthuonghieu())
                 .placeholder(R.drawable.placeholder) // Optional placeholder
                 .into(holder.imageViewHinhThuongHieu);
-    }
 
+        // Handle item click
+        holder.itemView.setOnClickListener(v -> {
+            if (onThuongHieuClickListener != null) {
+                onThuongHieuClickListener.onThuongHieuClick(thuongHieu);
+            }
+        });
+    }
 
     @Override
     public int getItemCount() {
         return thuongHieuList.size();
+    }
+
+    public interface OnThuongHieuClickListener {
+        void onThuongHieuClick(ThuongHieu thuongHieu);
     }
 
     public static class ThuonghieuViewHolder extends RecyclerView.ViewHolder {

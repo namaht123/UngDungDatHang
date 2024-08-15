@@ -22,10 +22,12 @@ import java.util.List;
 public class allsanphamActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private SanPhamAdapter adapter;
-    private ArrayList<SanPham> productList; // Use ArrayList
+    private ArrayList<SanPham> productList;
     private DatabaseConnection databaseConnection;
     private TextView searchTitle;
     private SearchView searchView;
+    private String currentSearchQuery = "";
+    private int currentMaThuongHieu = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,35 +46,48 @@ public class allsanphamActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // Trigger search when user submits a query
-                new FetchSanPhamTask().execute(query);
+                // Update search query and fetch products
+                currentSearchQuery = query;
+                fetchProducts();
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // Trigger search as user types
-                new FetchSanPhamTask().execute(newText);
+                // Update search query and fetch products
+                currentSearchQuery = newText;
+                fetchProducts();
                 return true;
             }
         });
 
-        // Get search query from intent
+        // Get search query and brand ID from intent
         Intent intent = getIntent();
-        String searchQuery = intent.getStringExtra("SEARCH_QUERY");
+        currentSearchQuery = intent.getStringExtra("SEARCH_QUERY") != null ? intent.getStringExtra("SEARCH_QUERY") : "";
+        currentMaThuongHieu = intent.getIntExtra("MA_THUONGHIEU", -1);
 
         // Fetch and display products
-        new FetchSanPhamTask().execute(searchQuery);
+        fetchProducts();
     }
 
-    private class FetchSanPhamTask extends AsyncTask<String, Void, List<SanPham>> {
+    private void fetchProducts() {
+        new FetchSanPhamTask().execute(currentSearchQuery, currentMaThuongHieu);
+    }
+
+    private class FetchSanPhamTask extends AsyncTask<Object, Void, List<SanPham>> {
 
         @Override
-        protected List<SanPham> doInBackground(String... params) {
-            String searchQuery = params[0];
+        protected List<SanPham> doInBackground(Object... params) {
+            String searchQuery = (String) params[0];
+            int maThuongHieu = (int) params[1];
+
             if (databaseConnection.checkConnection()) {
                 if (searchQuery == null || searchQuery.trim().isEmpty()) {
-                    return databaseConnection.getSanPhamList(); // Method to get all products
+                    if (maThuongHieu == -1) {
+                        return databaseConnection.getSanPhamList(); // Method to get all products
+                    } else {
+                        return databaseConnection.getSanPhamByBrand(maThuongHieu); // Method to get products by brand
+                    }
                 } else {
                     return databaseConnection.searchProductsByName(searchQuery);
                 }
@@ -85,6 +100,7 @@ public class allsanphamActivity extends AppCompatActivity {
             if (sanPhamList != null) {
                 productList = new ArrayList<>(sanPhamList); // Convert to ArrayList
                 SessionManager sessionManager = new SessionManager(allsanphamActivity.this); // Initialize SessionManager
+
                 // Initialize adapter
                 adapter = new SanPhamAdapter(productList, sessionManager);
 
@@ -93,16 +109,18 @@ public class allsanphamActivity extends AppCompatActivity {
                 recyclerView.setAdapter(adapter);
 
                 // Update the search title
-                Intent intent = getIntent();
-                String searchQuery = intent.getStringExtra("SEARCH_QUERY");
-                if (searchQuery == null || searchQuery.trim().isEmpty()) {
-                    searchTitle.setText("All Products");
+                if (currentSearchQuery == null || currentSearchQuery.trim().isEmpty()) {
+                    if (currentMaThuongHieu != -1) {
+                        searchTitle.setText("Sản phẩm từ thương hiệu ID: " + currentMaThuongHieu);
+                    } else {
+                        searchTitle.setText("Tất cả sản phẩm");
+                    }
                 } else {
-                    searchTitle.setText("Search results for: " + searchQuery);
+                    searchTitle.setText("Kết quả tìm kiếm cho: " + currentSearchQuery);
                 }
             } else {
                 // Handle the case where data retrieval fails
-                searchTitle.setText("No products found.");
+                searchTitle.setText("Không tìm thấy sản phẩm.");
             }
         }
     }

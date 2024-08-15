@@ -29,7 +29,6 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
         this.sessionManager = sessionManager;
     }
 
-
     @NonNull
     @Override
     public SanPhamViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -83,12 +82,17 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
         return sanPhamList.size();
     }
 
+    public void updateData(List<SanPham> newSanPhamList) {
+        this.sanPhamList = newSanPhamList;
+        notifyDataSetChanged();
+    }
+
     public static class SanPhamViewHolder extends RecyclerView.ViewHolder {
         TextView tenSPTextView;
         TextView giaTextView;
         ImageView anhImageView;
-        TextView txtPhanTramGiamGia, giagoc;
-
+        TextView txtPhanTramGiamGia;
+        TextView giagoc;
 
         public SanPhamViewHolder(@NonNull View itemView) {
             super(itemView);

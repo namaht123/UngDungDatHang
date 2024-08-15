@@ -656,6 +656,38 @@ public class DatabaseConnection {
     }
 
 
+    public List<SanPham> getSanPhamByBrand(int brandId) {
+        List<SanPham> sanPhamList = new ArrayList<>();
+        String query = "SELECT * FROM SanPham WHERE Mathuonghieu = ?";
+
+        if (con == null) {
+            Log.e("DatabaseError", "Database connection is not established.");
+            return sanPhamList;
+        }
+
+        try (PreparedStatement statement = con.prepareStatement(query)) {
+            statement.setInt(1, brandId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    SanPham sanPham = new SanPham();
+                    sanPham.setMaSP(resultSet.getInt("MaSP"));
+                    sanPham.setTenSP(resultSet.getString("TenSP"));
+                    sanPham.setGia(resultSet.getDouble("Gia"));
+                    sanPham.setAnh(resultSet.getString("Anh"));
+                    sanPham.setSoLuong(resultSet.getInt("SoLuong"));
+                    sanPham.setMaLoai(resultSet.getInt("MaLoai"));
+                    sanPham.setMaThuongHieu(resultSet.getInt("Mathuonghieu"));
+                    sanPhamList.add(sanPham);
+                }
+            }
+        } catch (SQLException e) {
+            Log.e("DatabaseError", "Error getting products by brand", e);
+        }
+
+        return sanPhamList;
+    }
+
+
 
 
 }
