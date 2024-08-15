@@ -42,7 +42,7 @@
               android:background="@drawable/bg_search"
               android:layout_margin="13dp">
 
-            <EditText
+            <SearchView
                 android:id="@+id/timkiem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

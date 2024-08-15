@@ -3,11 +3,9 @@ package com.example.ung_dung_dat_hang.View.TrangChu;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -23,7 +21,6 @@ import com.example.ung_dung_dat_hang.Adapter.ViewPagerAdapter;
 import com.example.ung_dung_dat_hang.R;
 import com.example.ung_dung_dat_hang.View.DangNhap.DangNhapActivity;
 import com.example.ung_dung_dat_hang.View.GioHang.GioHangActivity;
-import com.example.ung_dung_dat_hang.View.SearchResultsActivity;
 import com.example.ung_dung_dat_hang.View.TrangChu.Fragment.FragmentGioHang;
 import com.google.android.material.tabs.TabLayout;
 
@@ -33,7 +30,7 @@ public class ManHinhTrangChu extends AppCompatActivity {
     private ViewPager viewPager;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
-    private EditText searchEditText;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +42,7 @@ public class ManHinhTrangChu extends AppCompatActivity {
         tabLayout = findViewById(R.id.tab);
         viewPager = findViewById(R.id.viewpager);
         drawerLayout = findViewById(R.id.drawerLayout);
-        searchEditText = findViewById(R.id.timkiem);
+        searchView = findViewById(R.id.timkiem); // Ensure this ID is correct
 
         // Set up the toolbar
         toolbar.setTitle("");
@@ -62,33 +59,39 @@ public class ManHinhTrangChu extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         // Set up the search functionality
-        searchEditText.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH ||
-                    (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-                String query = searchEditText.getText().toString().trim();
-                performSearch(query);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Start allsanphamActivity with search query
+                startAllProductActivity(query);
                 return true;
             }
-            return false;
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Optionally handle text changes if needed
+                return false;
+            }
         });
 
-        // Hiển thị FragmentGioHang nếu được chọn từ menu
+        // Show FragmentGioHang if selected from menu
         if (savedInstanceState == null && getIntent().getBooleanExtra("SHOW_CART_FRAGMENT", false)) {
             showFragmentGioHang();
         }
     }
 
-    private void performSearch(String query) {
-        // Create an instance of the search results activity
-        Intent searchIntent = new Intent(this, SearchResultsActivity.class);
-        searchIntent.putExtra("SEARCH_QUERY", query);
-        startActivity(searchIntent);
+    private void startAllProductActivity(String searchQuery) {
+        Intent intent = new Intent(ManHinhTrangChu.this, allsanphamActivity.class);
+        if (!searchQuery.trim().isEmpty()) {
+            intent.putExtra("SEARCH_QUERY", searchQuery);
+        }
+        startActivity(intent);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_trangchu, menu);
-        updateMenu(menu);  // Pass the menu object to updateMenu
+        updateMenu(menu);
         return true;
     }
 
@@ -101,7 +104,6 @@ public class ManHinhTrangChu extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.itGioHang) {
-            // Mở GioHangActivity
             Intent intent = new Intent(this, GioHangActivity.class);
             startActivity(intent);
             return true;
@@ -113,16 +115,16 @@ public class ManHinhTrangChu extends AppCompatActivity {
             // Add action for notifications if needed
             return true;
         } else if (id == R.id.itdangxuat) {
-            // Xóa thông tin đăng nhập
+            // Clear login information
             SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
-            editor.remove("user_email");  // Xóa email hoặc thông tin cần thiết
+            editor.remove("user_email");
             editor.apply();
 
-            // Tải lại trang chủ
+            // Reload the main screen
             Intent intent = new Intent(this, ManHinhTrangChu.class);
             startActivity(intent);
-            finish();  // Kết thúc Activity hiện tại để không quay lại trang đã đăng nhập
+            finish();
 
             return true;
         } else {
@@ -131,22 +133,11 @@ public class ManHinhTrangChu extends AppCompatActivity {
     }
 
     private void showFragmentGioHang() {
-        // Tạo instance của FragmentGioHang
         Fragment fragment = new FragmentGioHang();
-
-        // Lấy FragmentManager
         FragmentManager fragmentManager = getSupportFragmentManager();
-
-        // Tạo một giao dịch Fragment
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        // Thay thế nội dung của container bằng FragmentGioHang
         fragmentTransaction.replace(R.id.container, fragment);
-
-        // Thêm giao dịch vào back stack
         fragmentTransaction.addToBackStack(null);
-
-        // Xác nhận giao dịch
         fragmentTransaction.commit();
     }
 
@@ -161,11 +152,11 @@ public class ManHinhTrangChu extends AppCompatActivity {
             if (userEmail != null) {
                 itDangNhap.setTitle(userEmail);
                 itDangNhap.setIcon(null);  // Optionally remove icon
-                itDangXuat.setVisible(true);  // Show "Đăng xuất" menu item
+                itDangXuat.setVisible(true);
             } else {
                 itDangNhap.setTitle("Đăng Nhập");
                 itDangNhap.setIcon(R.drawable.icon_mcuoi);
-                itDangXuat.setVisible(false);  // Hide "Đăng xuất" menu item
+                itDangXuat.setVisible(false);
             }
         }
     }

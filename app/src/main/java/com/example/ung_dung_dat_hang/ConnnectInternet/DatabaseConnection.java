@@ -33,8 +33,8 @@ public class DatabaseConnection {
         protected Boolean doInBackground(Void... voids) {
             ip = "10.0.2.2"; // IP address for localhost in Android Emulator
             database = "data_Lazada";
-            uname = "Trung";
-            pass = "123";
+            uname = "Sang";
+            pass = "261102";
             port = "1433"; // Default port for SQL Server
             String ConnectionURL;
             try {
@@ -617,7 +617,43 @@ public class DatabaseConnection {
         return list;
     }
 
+    public List<SanPham> searchProductsByName(String name) {
+        List<SanPham> list = new ArrayList<>();
+        Connection connection = getCon(); // Get the database connection
 
+        if (connection != null) {
+            Log.d("DatabaseConnection", "Connection successfully established.");
+            String query = "SELECT * FROM SanPham WHERE TenSP LIKE ?";
+
+            try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+                pstmt.setString(1, "%" + name + "%");
+
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        int maSP = rs.getInt("MaSP");
+                        String tenSP = rs.getString("TenSP");
+                        double gia = rs.getDouble("Gia");
+                        String thongTin = rs.getString("Thong_tin");
+                        String anh = rs.getString("Anh");
+                        int soLuong = rs.getInt("SoLuong");
+                        String anhNho = rs.getString("AnhNho");
+                        int maLoai = rs.getInt("MaLoai");
+                        int maThuongHieu = rs.getInt("Mathuonghieu");
+
+                        list.add(new SanPham(maSP, tenSP, gia, thongTin, anh, soLuong, anhNho, maLoai, maThuongHieu));
+                    }
+                } catch (SQLException e) {
+                    Log.e("DatabaseError", "Error executing query: " + e.getMessage());
+                }
+            } catch (SQLException e) {
+                Log.e("DatabaseError", "Error preparing statement: " + e.getMessage());
+            }
+        } else {
+            Log.e("DatabaseConnection", "Connection is null.");
+        }
+
+        return list;
+    }
 
 
 
