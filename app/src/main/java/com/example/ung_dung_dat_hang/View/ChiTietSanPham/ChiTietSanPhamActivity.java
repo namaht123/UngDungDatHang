@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -35,7 +36,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private RatingBar ratingBar;
     private Toolbar toolbar;
-    private ImageButton addToCartButton;
+    private Button addToCartButton;
     private DatabaseConnection databaseConnection;
     private RecyclerView recyclerView;
     private SanPhamAdapter sanPhamAdapter;

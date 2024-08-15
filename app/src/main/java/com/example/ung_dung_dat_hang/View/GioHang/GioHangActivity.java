@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.ung_dung_dat_hang.Adapter.GioHangAdapter;
+import com.example.ung_dung_dat_hang.ConnnectInternet.DatabaseConnection;
 import com.example.ung_dung_dat_hang.R;
 import com.example.ung_dung_dat_hang.View.DangNhap.DangNhapActivity;
 import com.example.ung_dung_dat_hang.View.ThanhToan.ThanhToanActivity;
@@ -27,11 +28,12 @@ public class GioHangActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private GioHangAdapter adapter;
     private TextView txtTongTien, txtSoLuong;
+    private DatabaseConnection databaseConnection;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_gio_hang);
-
+        databaseConnection = new DatabaseConnection(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -42,11 +44,16 @@ public class GioHangActivity extends AppCompatActivity {
         txtTongTien = findViewById(R.id.tvTongTien);
         txtSoLuong = findViewById(R.id.tvSoLuong);
         Button btnMuaNgay = findViewById(R.id.btnmuangay);
+        // GioHangActivity.java
         btnMuaNgay.setOnClickListener(v -> {
             Intent intent = new Intent(GioHangActivity.this, ThanhToanActivity.class);
+
+            // Pass the product details and total amount to ThanhToanActivity
+            intent.putExtra("TOTAL_AMOUNT", txtTongTien.getText().toString());
+            intent.putExtra("PRODUCTS", convertCartItemsToString(adapter.getCartItems()));
+
             startActivity(intent);
         });
-
         adapter = new GioHangAdapter(this, loadCartItems());
         recyclerView.setAdapter(adapter);
 
@@ -59,7 +66,17 @@ public class GioHangActivity extends AppCompatActivity {
             recalculateTotal();
         });
     }
-
+    private String convertCartItemsToString(List<CartItem> cartItems) {
+        StringBuilder sb = new StringBuilder();
+        for (CartItem item : cartItems) {
+            sb.append(item.getTenSP()).append(";")
+                    .append(item.getGiaSP()).append(";")
+                    .append(item.getAnhSP()).append(";")
+                    .append(item.getAnhNhoSP()).append(";")
+                    .append(item.getSoLuong()).append("|");
+        }
+        return sb.toString();
+    }
     private void removeCartItem(int position) {
         SharedPreferences cartPreferences = getSharedPreferences("cart_prefs", MODE_PRIVATE);
         SharedPreferences userPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
@@ -90,17 +107,23 @@ public class GioHangActivity extends AppCompatActivity {
     }
 
     private void recalculateTotal() {
-        double totalPrice = 0;
-        int totalQuantity = 0;
+        if (databaseConnection != null) {
+            double totalPrice = databaseConnection.getCartTotal(); // Use the method from DatabaseConnection
+            int totalQuantity = 0;
 
-        for (CartItem item : adapter.getCartItems()) {
-            totalPrice += item.getGiaSP() * item.getSoLuong();
-            totalQuantity += item.getSoLuong();
+            for (CartItem item : adapter.getCartItems()) {
+                totalQuantity += item.getSoLuong();
+            }
+
+            txtTongTien.setText(String.format("Tổng tiền: %,.0f VND", totalPrice));
+            txtSoLuong.setText(String.format("Số lượng: %d", totalQuantity));
+        } else {
+            // Handle the case where databaseConnection is null
+            txtTongTien.setText("Tổng tiền: 0 VND");
+            txtSoLuong.setText("Số lượng: 0");
         }
-
-        txtTongTien.setText(String.format("Tổng tiền: %,.0f VND", totalPrice));
-        txtSoLuong.setText(String.format("Số lượng: %d", totalQuantity));
     }
+
 
     private List<CartItem> loadCartItems() {
         List<CartItem> cartItems = new ArrayList<>();

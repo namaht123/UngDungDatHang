@@ -3,8 +3,12 @@ package com.example.ung_dung_dat_hang.View.TrangChu;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +25,7 @@ import com.example.ung_dung_dat_hang.Adapter.ViewPagerAdapter;
 import com.example.ung_dung_dat_hang.R;
 import com.example.ung_dung_dat_hang.View.DangNhap.DangNhapActivity;
 import com.example.ung_dung_dat_hang.View.GioHang.GioHangActivity;
+import com.example.ung_dung_dat_hang.View.LichSuDonHang.DonHangCuaToiActivity;
 import com.example.ung_dung_dat_hang.View.TrangChu.Fragment.FragmentGioHang;
 import com.google.android.material.tabs.TabLayout;
 
@@ -42,8 +47,7 @@ public class ManHinhTrangChu extends AppCompatActivity {
         tabLayout = findViewById(R.id.tab);
         viewPager = findViewById(R.id.viewpager);
         drawerLayout = findViewById(R.id.drawerLayout);
-        searchView = findViewById(R.id.timkiem); // Ensure this ID is correct
-
+        searchView  = findViewById(R.id.timkiem);
         // Set up the toolbar
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -74,12 +78,11 @@ public class ManHinhTrangChu extends AppCompatActivity {
             }
         });
 
-        // Show FragmentGioHang if selected from menu
+        // Hiển thị FragmentGioHang nếu được chọn từ menu
         if (savedInstanceState == null && getIntent().getBooleanExtra("SHOW_CART_FRAGMENT", false)) {
             showFragmentGioHang();
         }
     }
-
     private void startAllProductActivity(String searchQuery) {
         Intent intent = new Intent(ManHinhTrangChu.this, allsanphamActivity.class);
         if (!searchQuery.trim().isEmpty()) {
@@ -91,7 +94,7 @@ public class ManHinhTrangChu extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_trangchu, menu);
-        updateMenu(menu);
+        updateMenu(menu);  // Pass the menu object to updateMenu
         return true;
     }
 
@@ -104,6 +107,7 @@ public class ManHinhTrangChu extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.itGioHang) {
+            // Mở GioHangActivity
             Intent intent = new Intent(this, GioHangActivity.class);
             startActivity(intent);
             return true;
@@ -115,29 +119,46 @@ public class ManHinhTrangChu extends AppCompatActivity {
             // Add action for notifications if needed
             return true;
         } else if (id == R.id.itdangxuat) {
-            // Clear login information
+            // Xóa thông tin đăng nhập
             SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
-            editor.remove("user_email");
+            editor.remove("user_email");  // Xóa email hoặc thông tin cần thiết
             editor.apply();
 
-            // Reload the main screen
+            // Tải lại trang chủ
             Intent intent = new Intent(this, ManHinhTrangChu.class);
             startActivity(intent);
-            finish();
+            finish();  // Kết thúc Activity hiện tại để không quay lại trang đã đăng nhập
 
             return true;
-        } else {
+        }  else if (id == R.id.itDonHangCuaToi) {
+            // Open the LichSuDatHangActivity
+            Intent intent = new Intent(this, DonHangCuaToiActivity.class);
+            startActivity(intent);
+            return true;
+            // Handle other menu items
+        }else {
             return super.onOptionsItemSelected(item);
         }
     }
 
     private void showFragmentGioHang() {
+        // Tạo instance của FragmentGioHang
         Fragment fragment = new FragmentGioHang();
+
+        // Lấy FragmentManager
         FragmentManager fragmentManager = getSupportFragmentManager();
+
+        // Tạo một giao dịch Fragment
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Thay thế nội dung của container bằng FragmentGioHang
         fragmentTransaction.replace(R.id.container, fragment);
+
+        // Thêm giao dịch vào back stack
         fragmentTransaction.addToBackStack(null);
+
+        // Xác nhận giao dịch
         fragmentTransaction.commit();
     }
 
@@ -152,11 +173,11 @@ public class ManHinhTrangChu extends AppCompatActivity {
             if (userEmail != null) {
                 itDangNhap.setTitle(userEmail);
                 itDangNhap.setIcon(null);  // Optionally remove icon
-                itDangXuat.setVisible(true);
+                itDangXuat.setVisible(true);  // Show "Đăng xuất" menu item
             } else {
                 itDangNhap.setTitle("Đăng Nhập");
                 itDangNhap.setIcon(R.drawable.icon_mcuoi);
-                itDangXuat.setVisible(false);
+                itDangXuat.setVisible(false);  // Hide "Đăng xuất" menu item
             }
         }
     }

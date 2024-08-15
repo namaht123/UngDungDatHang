@@ -31,6 +31,7 @@
             android:textColor="@color/bgLogo"
             android:layout_marginTop="5dp"/>
         <EditText
+            android:id="@+id/edtTenNguoiNhan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ten nguoi nhan"
@@ -38,6 +39,7 @@
             android:background="@drawable/border_thanhtoan"
             android:textSize="14sp"/>
         <EditText
+            android:id="@+id/edtDiaChiGiao"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:hint="Dia chi giao hang"
@@ -47,6 +49,7 @@
             android:textSize="14sp"
             />
         <EditText
+            android:id="@+id/edtSoDienThoai"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="So dien thoai"
@@ -89,6 +92,7 @@
             android:layout_margin="10dp"
             />
         <Button
+            android:id="@+id/btnThanhToan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"

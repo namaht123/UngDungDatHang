@@ -43,16 +43,16 @@
                     android:textSize="18sp"
                     android:textColor="@color/red"
                     android:layout_marginTop="4dp"/>
-
-                <RatingBar
-                    android:id="@+id/ratingBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleX=".7"
-                    android:scaleY=".7"
-                    android:layout_marginTop="8dp"
-                    android:transformPivotX="0dp"
-                    android:transformPivotY="0dp"/>
+                    <RatingBar
+                        android:id="@+id/ratingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleX=".7"
+                        android:scaleY=".7"
+                        android:layout_marginTop="8dp"
+                        android:transformPivotX="0dp"
+                        android:transformPivotY="0dp"
+                        />
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/viewpager_liveshow"
@@ -298,13 +298,7 @@
         android:elevation="4dp">
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:text="Mua Ngay"
-            android:padding="10dp"/>
-
-        <ImageButton
+            android:text="Thêm vào giỏ hàng"
             android:id="@+id/add_to_cart_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

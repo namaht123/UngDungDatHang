@@ -1,11 +1,18 @@
 package com.example.ung_dung_dat_hang.ConnnectInternet;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import static java.sql.DriverManager.getConnection;
+
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.BinhLuan;
+import com.example.ung_dung_dat_hang.Model.ObjeactClass.ChiTietDonDatHang;
+import com.example.ung_dung_dat_hang.Model.ObjeactClass.DonDatHang;
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.SanPham;
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.SanPhamKhuyenMai;
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.ThuongHieu;
@@ -34,8 +41,8 @@ public class DatabaseConnection {
         protected Boolean doInBackground(Void... voids) {
             ip = "10.0.2.2"; // IP address for localhost in Android Emulator
             database = "data_Lazada";
-            uname = "Sang";
-            pass = "261102";
+            uname = "Trung";
+            pass = "123";
             port = "1433"; // Default port for SQL Server
             String ConnectionURL;
             try {
@@ -64,7 +71,170 @@ public class DatabaseConnection {
         }
     }
 
+    public Connection getCon() {
+        return con;
+    }
 
+    public boolean checkConnection() {
+        boolean isConnected = false;
+        try {
+            if (con != null && !con.isClosed()) {
+                isConnected = true;
+            }
+        } catch (SQLException e) {
+            Log.e("Connection Error", "Connection check error: " + e.getMessage());
+        }
+        return isConnected;
+    }
+
+    public double getCartTotal() {
+        SharedPreferences cartPreferences = context.getSharedPreferences("cart_prefs", Context.MODE_PRIVATE);
+        SharedPreferences userPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        String userEmail = userPreferences.getString("user_email", null);
+
+        double totalPrice = 0;
+
+        if (userEmail != null) {
+            int itemCount = cartPreferences.getInt(userEmail + "_item_count", 0);
+            for (int i = 1; i <= itemCount; i++) {
+                String itemData = cartPreferences.getString(userEmail + "_product_" + i, null);
+                if (itemData != null) {
+                    String[] data = itemData.split(";");
+                    if (data.length >= 5) {
+                        double itemPrice = Double.parseDouble(data[1]);
+                        int quantity = Integer.parseInt(data[4]);
+
+                        totalPrice += itemPrice * quantity;
+                    }
+                }
+            }
+        }
+
+        return totalPrice;
+    }
+
+    public int executeInsertOrder(String userEmail, String tenNguoiNhan, String diaChiGiao, String soDienThoai) throws SQLException {
+        String query = "INSERT INTO DonDatHang (Mataikhoan, Trangthai, Diachigiao, Ngaydat, Tongtien) VALUES (?, ?, ?, GETDATE(), ?)";
+        try (PreparedStatement stmt = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            // Find user ID from email
+            int userId = getUserIdByEmail(userEmail);
+
+            stmt.setInt(1, userId);
+            stmt.setString(2, "Đang giao nè ");  // Default status
+            stmt.setString(3, diaChiGiao);
+            stmt.setDouble(4, getCartTotal()); // Assume you have a method to get cart total
+
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return generatedKeys.getInt(1);
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
+    private int getUserIdByEmail(String userEmail) throws SQLException {
+        String query = "SELECT Mataikhoan FROM TaiKhoan WHERE Tentaikhoan = ?";
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, userEmail);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("Mataikhoan");
+                }
+            }
+        }
+        throw new SQLException("User not found");
+    }
+    public List<SanPham> getSanPhamByBrand(int brandId) {
+        List<SanPham> sanPhamList = new ArrayList<>();
+        String query = "SELECT * FROM SanPham WHERE Mathuonghieu = ?";
+
+        if (con == null) {
+            Log.e("DatabaseError", "Database connection is not established.");
+            return sanPhamList;
+        }
+
+        try (PreparedStatement statement = con.prepareStatement(query)) {
+            statement.setInt(1, brandId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    SanPham sanPham = new SanPham();
+                    sanPham.setMaSP(resultSet.getInt("MaSP"));
+                    sanPham.setTenSP(resultSet.getString("TenSP"));
+                    sanPham.setGia(resultSet.getDouble("Gia"));
+                    sanPham.setAnh(resultSet.getString("Anh"));
+                    sanPham.setSoLuong(resultSet.getInt("SoLuong"));
+                    sanPham.setMaLoai(resultSet.getInt("MaLoai"));
+                    sanPham.setMaThuongHieu(resultSet.getInt("Mathuonghieu"));
+                    sanPhamList.add(sanPham);
+                }
+            }
+        } catch (SQLException e) {
+            Log.e("DatabaseError", "Error getting products by brand", e);
+        }
+
+        return sanPhamList;
+    }
+
+
+
+    public void executeInsertOrderDetails(int maSP, int madondathang, int soluong, double tongtienSP) throws SQLException {
+        String query = "INSERT INTO ChiTietDonDatHang (MaSP, Madondathang, Soluong, TongtienSP) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setInt(1, maSP);
+            stmt.setInt(2, madondathang);
+            stmt.setInt(3, soluong);
+            stmt.setDouble(4, tongtienSP);
+            stmt.executeUpdate();
+        }
+    }
+
+    public List<DonDatHang> getOrdersByUserEmail(String userEmail) throws SQLException {
+        List<DonDatHang> orderList = new ArrayList<>();
+        int userId = getUserIdByEmail(userEmail);
+        String query = "SELECT Madondathang, Tongtien FROM DonDatHang WHERE Mataikhoan = ?";
+
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    DonDatHang order = new DonDatHang();
+                    order.setMadondathang(rs.getInt("Madondathang"));
+                    order.setTongtien(rs.getDouble("Tongtien"));
+                    orderList.add(order);
+                }
+            }
+        }
+        return orderList;
+    }
+
+    public List<ChiTietDonDatHang> getProductsByOrderId(int madondathang) throws SQLException {
+        List<ChiTietDonDatHang> productList = new ArrayList<>();
+
+        String query = "SELECT SP.MaSP, SP.TenSP, SP.Anh, SP.Gia, CTDH.Soluong " +
+                "FROM ChiTietDonDatHang CTDH " +
+                "JOIN SanPham SP ON CTDH.MaSP = SP.MaSP " +
+                "WHERE CTDH.Madondathang = ?";
+
+        PreparedStatement preparedStatement = con.prepareStatement(query);
+        preparedStatement.setInt(1, madondathang);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            ChiTietDonDatHang product = new ChiTietDonDatHang();
+            product.setMaSP(resultSet.getInt("MaSP"));
+            product.setTenSP(resultSet.getString("TenSP"));
+            product.setHinh(resultSet.getString("Anh")); // Use `Anh` for image URL
+            product.setSoluong(resultSet.getInt("Soluong"));
+            product.setGia(resultSet.getBigDecimal("Gia")); // Set price
+            productList.add(product);
+        }
+
+        return productList;
+    }
     public List<BinhLuan> getCommentsByProductId(int maSP) {
         List<BinhLuan> commentList = new ArrayList<>();
         // SQL query to select comments based on product ID
@@ -99,23 +269,6 @@ public class DatabaseConnection {
 
         return commentList;
     }
-
-    public Connection getCon() {
-        return con;
-    }
-
-    public boolean checkConnection() {
-        boolean isConnected = false;
-        try {
-            if (con != null && !con.isClosed()) {
-                isConnected = true;
-            }
-        } catch (SQLException e) {
-            Log.e("Connection Error", "Connection check error: " + e.getMessage());
-        }
-        return isConnected;
-    }
-
     // New method to fetch products
     public List<SanPham> getSanPhamList() {
         List<SanPham> list = new ArrayList<>();
@@ -688,38 +841,6 @@ public class DatabaseConnection {
         }
 
         return list;
-    }
-
-
-    public List<SanPham> getSanPhamByBrand(int brandId) {
-        List<SanPham> sanPhamList = new ArrayList<>();
-        String query = "SELECT * FROM SanPham WHERE Mathuonghieu = ?";
-
-        if (con == null) {
-            Log.e("DatabaseError", "Database connection is not established.");
-            return sanPhamList;
-        }
-
-        try (PreparedStatement statement = con.prepareStatement(query)) {
-            statement.setInt(1, brandId);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    SanPham sanPham = new SanPham();
-                    sanPham.setMaSP(resultSet.getInt("MaSP"));
-                    sanPham.setTenSP(resultSet.getString("TenSP"));
-                    sanPham.setGia(resultSet.getDouble("Gia"));
-                    sanPham.setAnh(resultSet.getString("Anh"));
-                    sanPham.setSoLuong(resultSet.getInt("SoLuong"));
-                    sanPham.setMaLoai(resultSet.getInt("MaLoai"));
-                    sanPham.setMaThuongHieu(resultSet.getInt("Mathuonghieu"));
-                    sanPhamList.add(sanPham);
-                }
-            }
-        } catch (SQLException e) {
-            Log.e("DatabaseError", "Error getting products by brand", e);
-        }
-
-        return sanPhamList;
     }
 
 
