@@ -12,12 +12,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+import com.example.ung_dung_dat_hang.Adapter.SanPhamAdapter;
+import com.example.ung_dung_dat_hang.ConnnectInternet.SessionManager;
+import com.example.ung_dung_dat_hang.Model.ObjeactClass.SanPham;
 import com.example.ung_dung_dat_hang.R;
 import com.example.ung_dung_dat_hang.View.DangNhap.DangNhapActivity;
 import com.example.ung_dung_dat_hang.View.GioHang.GioHangActivity;
 import com.example.ung_dung_dat_hang.View.TrangChu.ManHinhTrangChu;
-
 import java.util.ArrayList;
 
 public class ChiTietSanPhamActivity extends AppCompatActivity {
@@ -27,6 +31,9 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     private RatingBar ratingBar;
     private Toolbar toolbar;
     private ImageButton addToCartButton;
+    private RecyclerView sanphamgoiy;
+    private ArrayList<SanPham> sanPhams;
+    private SanPhamAdapter sanPhamAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,12 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingBar);
         toolbar = findViewById(R.id.toolbar);
         addToCartButton = findViewById(R.id.add_to_cart_button);
+        sanphamgoiy = findViewById(R.id.spgoiy);
+
+        sanPhams = new ArrayList<>();
+        sanPhamAdapter = new SanPhamAdapter(sanPhams, new SessionManager(this));
+        sanphamgoiy.setAdapter(sanPhamAdapter);
+        sanphamgoiy.setLayoutManager(new LinearLayoutManager(this));
 
         // Set up the toolbar
         setSupportActionBar(toolbar);

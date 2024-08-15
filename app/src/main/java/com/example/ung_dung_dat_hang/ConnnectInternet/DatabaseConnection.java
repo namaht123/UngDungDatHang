@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.ung_dung_dat_hang.Model.ObjeactClass.BinhLuan;
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.SanPham;
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.SanPhamKhuyenMai;
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.ThuongHieu;
@@ -64,6 +65,40 @@ public class DatabaseConnection {
     }
 
 
+    public List<BinhLuan> getCommentsByProductId(int maSP) {
+        List<BinhLuan> commentList = new ArrayList<>();
+        // SQL query to select comments based on product ID
+        String query = "SELECT * FROM binhluan WHERE maSP = ?";
+
+        if (con == null || !checkConnection()) {
+            Log.e("DatabaseError", "Database connection is not established.");
+            return commentList; // Return empty list if no connection
+        }
+
+        try (PreparedStatement statement = con.prepareStatement(query)) {
+            // Set the product ID parameter in the query
+            statement.setInt(1, maSP);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                // Loop through the result set and populate the list
+                while (resultSet.next()) {
+                    BinhLuan comment = new BinhLuan(
+                            resultSet.getInt("maSP"),
+                            resultSet.getInt("maTaiKhoan"),
+                            resultSet.getInt("maBinhLuan"),
+                            resultSet.getString("noiDung"),
+                            resultSet.getString("ngayBinhLuan")
+                    );
+                    // Add the populated BinhLuan object to the list
+                    commentList.add(comment);
+                }
+            }
+        } catch (SQLException e) {
+            Log.e("DatabaseError", "Error getting comments by product ID", e);
+        }
+
+        return commentList;
+    }
 
     public Connection getCon() {
         return con;
