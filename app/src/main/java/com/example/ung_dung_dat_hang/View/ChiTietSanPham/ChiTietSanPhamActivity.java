@@ -2,6 +2,7 @@ package com.example.ung_dung_dat_hang.View.ChiTietSanPham;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,14 +16,18 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+
 import com.example.ung_dung_dat_hang.Adapter.SanPhamAdapter;
+import com.example.ung_dung_dat_hang.ConnnectInternet.DatabaseConnection;
 import com.example.ung_dung_dat_hang.ConnnectInternet.SessionManager;
 import com.example.ung_dung_dat_hang.Model.ObjeactClass.SanPham;
 import com.example.ung_dung_dat_hang.R;
 import com.example.ung_dung_dat_hang.View.DangNhap.DangNhapActivity;
 import com.example.ung_dung_dat_hang.View.GioHang.GioHangActivity;
 import com.example.ung_dung_dat_hang.View.TrangChu.ManHinhTrangChu;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChiTietSanPhamActivity extends AppCompatActivity {
 
@@ -31,9 +36,10 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     private RatingBar ratingBar;
     private Toolbar toolbar;
     private ImageButton addToCartButton;
-    private RecyclerView sanphamgoiy;
-    private ArrayList<SanPham> sanPhams;
+    private DatabaseConnection databaseConnection;
+    private RecyclerView recyclerView;
     private SanPhamAdapter sanPhamAdapter;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,18 +54,16 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingBar);
         toolbar = findViewById(R.id.toolbar);
         addToCartButton = findViewById(R.id.add_to_cart_button);
-        sanphamgoiy = findViewById(R.id.spgoiy);
-
-        sanPhams = new ArrayList<>();
-        sanPhamAdapter = new SanPhamAdapter(sanPhams, new SessionManager(this));
-        sanphamgoiy.setAdapter(sanPhamAdapter);
-        sanphamgoiy.setLayoutManager(new LinearLayoutManager(this));
 
         // Set up the toolbar
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+        // Initialize DatabaseConnection and SessionManager
+        databaseConnection = new DatabaseConnection(this);
+        sessionManager = new SessionManager(this);
 
         // Get the data from the intent
         Intent intent = getIntent();
@@ -92,6 +96,31 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
             addToCart();
             Toast.makeText(this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
         });
+
+        // Setup RecyclerView
+        recyclerView = findViewById(R.id.spgoiy);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        // Fetch and display products
+        new FetchSanPhamTask().execute();
+    }
+
+    private class FetchSanPhamTask extends AsyncTask<Void, Void, List<SanPham>> {
+
+        @Override
+        protected List<SanPham> doInBackground(Void... voids) {
+            return databaseConnection.getAllBanChay(); // Use the new method
+        }
+
+        @Override
+        protected void onPostExecute(List<SanPham> sanPhamList) {
+            if (sanPhamList != null) {
+                sanPhamAdapter = new SanPhamAdapter(sanPhamList, sessionManager);
+                recyclerView.setAdapter(sanPhamAdapter);
+            } else {
+                Toast.makeText(ChiTietSanPhamActivity.this, "Không thể tải sản phẩm!", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     private void addToCart() {
@@ -148,7 +177,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_trangchu, menu);
-        updateMenu(menu);  // Pass the menu object to updateMenu
+        updateMenu(menu);
         return true;
     }
 
@@ -193,19 +222,11 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
             if (userEmail != null) {
                 itDangNhap.setTitle(userEmail);
                 itDangNhap.setIcon(null);  // Optionally remove icon
-                itDangXuat.setVisible(true);  // Show "Đăng xuất" menu item
+                itDangXuat.setVisible(true);  // Show "Đăng xuất"
             } else {
-                itDangNhap.setTitle("Đăng Nhập");
-                itDangNhap.setIcon(R.drawable.icon_mcuoi);
-                itDangXuat.setVisible(false);  // Hide "Đăng xuất" menu item
+                itDangNhap.setTitle("Đăng nhập");
+                itDangXuat.setVisible(false); // Hide "Đăng xuất"
             }
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Refresh the menu
-        invalidateOptionsMenu();
     }
 }
